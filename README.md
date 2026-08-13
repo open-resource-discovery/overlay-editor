@@ -26,11 +26,11 @@ npm install @open-resource-discovery/overlay-editor
 ## Usage
 
 ```tsx
-import { OverlayCardView } from '@open-resource-discovery/overlay-editor/card-view';
-import '@open-resource-discovery/overlay-editor/styles';
+import { OverlayCardView } from "@open-resource-discovery/overlay-editor/card-view";
+import "@open-resource-discovery/overlay-editor/styles";
 
 export function MyView({ overlay }: { overlay: OrdOverlay }) {
-    return <OverlayCardView overlay={overlay} />;
+  return <OverlayCardView overlay={overlay} />;
 }
 ```
 
