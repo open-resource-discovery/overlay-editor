@@ -1,0 +1,67 @@
+{
+  "name": "Weather MCP Server",
+  "version": "1.2.0",
+  "description": "Provides weather data tools for AI agents",
+  "tools": [
+    {
+      "name": "get_weather",
+      "description": "Get current weather for a location",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "City name or coordinates"
+          }
+        },
+        "required": ["location"]
+      }
+    },
+    {
+      "name": "get_forecast",
+      "description": "Get weather forecast",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "City name or coordinates"
+          },
+          "days": {
+            "type": "integer",
+            "description": "Number of forecast days (1-7)",
+            "default": 3
+          }
+        },
+        "required": ["location"]
+      }
+    },
+    {
+      "name": "get_alerts",
+      "description": "Get weather alerts for a region",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "region": {
+            "type": "string",
+            "description": "Region identifier or coordinates"
+          }
+        },
+        "required": ["region"]
+      }
+    },
+    {
+      "name": "legacy_weather_lookup",
+      "description": "Deprecated: use get_weather instead",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string"
+          }
+        },
+        "required": ["city"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "csnInteropEffective": "1.0",
+  "$version": "2.0",
+  "definitions": {
+    "ProductCategory": {
+      "kind": "entity",
+      "@AccessControl.authorizationCheck": { "#": "CHECK" },
+      "@Analytics.dataCategory": { "#": "DIMENSION" },
+      "@Analytics.dataExtraction.enabled": true,
+      "@EndUserText.label": "Product Category",
+      "@Metadata.allowExtensions": true,
+      "@ObjectModel.compositionRoot": true,
+      "@ObjectModel.modelingPattern": { "#": "ANALYTICAL_DIMENSION" },
+      "@ObjectModel.representativeKey": "CategoryCode",
+      "@ObjectModel.sapObjectNodeType.name": "ProductCategoryNode",
+      "@ObjectModel.tenantWideUniqueName": "ProductCategory",
+      "@ObjectModel.usageType.dataClass": { "#": "MASTER" },
+      "@ObjectModel.usageType.serviceQuality": { "#": "A" },
+      "@ObjectModel.usageType.sizeCategory": { "#": "S" },
+      "@VDM.viewType": { "#": "BASIC" },
+      "@EntityRelationship.entityType": "example.retail:entityType:ProductCategory:v1",
+      "@EntityRelationship.entityIds": [
+        {
+          "name": "ProductCategory",
+          "propertyTypes": ["example.retail:CategoryCode"]
+        }
+      ],
+      "@ODM.entityName": "ProductCategory",
+      "@ODM.oid": "categoryCode",
+      "__abapOriginalName": "I_ProductCategory",
+      "elements": {
+        "CategoryCode": {
+          "type": "EX_CATEG_CODE",
+          "key": true,
+          "@AbapCatalog.typeSpec.outputLength": {
+            "value": "8",
+            "literal": "number"
+          },
+          "@AbapCatalog.typeSpec.changeDocumentRelevant": true,
+          "@EndUserText.label": "Category Code",
+          "@EndUserText.heading": "Category",
+          "@EndUserText.quickInfo": "Unique identifier for the product category",
+          "@EntityRelationship.propertyType": "example.retail:CategoryCode",
+          "@ObjectModel.upperCase": true,
+          "__abapOriginalName": "CategoryCode"
+        },
+        "CategoryName": {
+          "type": "EX_CATEG_NAME",
+          "@AbapCatalog.typeSpec.outputLength": {
+            "value": "60",
+            "literal": "number"
+          },
+          "@EndUserText.label": "Category Name",
+          "@Semantics.text": true,
+          "@ObjectModel.text.element": ["CategoryName"],
+          "__abapOriginalName": "CategoryName"
+        },
+        "ParentCategoryCode": {
+          "type": "EX_CATEG_CODE",
+          "@AbapCatalog.typeSpec.outputLength": {
+            "value": "8",
+            "literal": "number"
+          },
+          "@EndUserText.label": "Parent Category",
+          "@ObjectModel.foreignKey.association": "_Parent",
+          "__abapOriginalName": "ParentCategoryCode"
+        },
+        "ValidFrom": {
+          "type": "EX_DATE",
+          "@AbapCatalog.typeSpec.outputLength": {
+            "value": "8",
+            "literal": "number"
+          },
+          "@EndUserText.label": "Valid From",
+          "@Semantics.businessDate.from": true,
+          "__abapOriginalName": "ValidFrom"
+        },
+        "ValidTo": {
+          "type": "EX_DATE",
+          "@AbapCatalog.typeSpec.outputLength": {
+            "value": "8",
+            "literal": "number"
+          },
+          "@EndUserText.label": "Valid To",
+          "@Semantics.businessDate.to": true,
+          "__abapOriginalName": "ValidTo"
+        }
+      }
+    },
+
+    "EX_CATEG_CODE": {
+      "kind": "type",
+      "type": "cds.String",
+      "length": 8,
+      "@EndUserText.label": "Category Code Type",
+      "@ObjectModel.upperCase": true
+    },
+    "EX_CATEG_NAME": {
+      "kind": "type",
+      "type": "cds.String",
+      "length": 60,
+      "@EndUserText.label": "Category Name Type"
+    },
+    "EX_DATE": {
+      "kind": "type",
+      "type": "cds.Date",
+      "@EndUserText.label": "Calendar Date Type"
+    }
+  }
+}

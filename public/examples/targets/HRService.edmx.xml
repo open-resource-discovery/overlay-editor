@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Minimal EDMX fixture demonstrating all OData selector types for overlay testing. -->
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="http://tinyurl.com/Org-OData-Core">
+    <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core" />
+  </edmx:Reference>
+  <edmx:Reference Uri="http://tinyurl.com/Org-OData-Capabilities">
+    <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities" />
+  </edmx:Reference>
+  <edmx:Reference Uri="http://tinyurl.com/Org-OData-PersonalData">
+    <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData" />
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.sap.HRService">
+      <EntityContainer Name="HRContainer">
+        <EntitySet Name="Employees" EntityType="com.sap.HRService.Employee" />
+        <EntitySet Name="Departments" EntityType="com.sap.HRService.Department" />
+      </EntityContainer>
+      <EnumType Name="EmploymentStatus">
+        <Member Name="Active" Value="0" />
+        <Member Name="OnLeave" Value="1" />
+        <Member Name="Terminated" Value="2" />
+      </EnumType>
+      <ComplexType Name="Address">
+        <Property Name="Street" Type="Edm.String" MaxLength="100" />
+        <Property Name="City" Type="Edm.String" MaxLength="50" />
+        <Property Name="PostalCode" Type="Edm.String" MaxLength="10" />
+        <Property Name="Country" Type="Edm.String" MaxLength="3" />
+      </ComplexType>
+      <EntityType Name="Employee">
+        <Key>
+          <PropertyRef Name="EmployeeId" />
+        </Key>
+        <Property Name="EmployeeId" Type="Edm.String" Nullable="false" MaxLength="10" />
+        <Property Name="FirstName" Type="Edm.String" MaxLength="40" />
+        <Property Name="LastName" Type="Edm.String" MaxLength="40" />
+        <Property Name="DateOfBirth" Type="Edm.Date" />
+        <Property Name="Status" Type="com.sap.HRService.EmploymentStatus" />
+        <Property Name="HomeAddress" Type="com.sap.HRService.Address" />
+        <NavigationProperty Name="Department" Type="com.sap.HRService.Department" />
+      </EntityType>
+      <EntityType Name="Department">
+        <Key>
+          <PropertyRef Name="DepartmentId" />
+        </Key>
+        <Property Name="DepartmentId" Type="Edm.String" Nullable="false" MaxLength="10" />
+        <Property Name="Name" Type="Edm.String" MaxLength="100" />
+      </EntityType>
+      <Action Name="TerminateEmployee" IsBound="true">
+        <Parameter Name="BindingParameter" Type="com.sap.HRService.Employee" />
+        <Parameter Name="EffectiveDate" Type="Edm.Date" Nullable="false" />
+        <ReturnType Type="com.sap.HRService.Employee" />
+      </Action>
+      <Function Name="GetDirectReports" IsBound="false">
+        <Parameter Name="ManagerId" Type="Edm.String" Nullable="false" />
+        <ReturnType Type="Collection(com.sap.HRService.Employee)" />
+      </Function>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

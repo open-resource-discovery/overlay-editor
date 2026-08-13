@@ -1,0 +1,58 @@
+[
+  {
+    "id": "openapi-astronomy-api",
+    "title": "OpenAPI · Astronomy API",
+    "description": "Enriches an OpenAPI 3 description with AI-optimized summaries, hints, and examples.",
+    "targetType": "openapi-v3",
+    "url": "/examples/overlays/openapi-astronomy-api.overlay.json"
+  },
+  {
+    "id": "openapi-astronomy-api-jsonpath",
+    "title": "OpenAPI · JSONPath selectors",
+    "description": "Same Astronomy API as above, but selects operations via JSONPath expressions.",
+    "targetType": "openapi-v3",
+    "url": "/examples/overlays/openapi-astronomy-api-jsonpath.overlay.json"
+  },
+  {
+    "id": "mcp-weather-server",
+    "title": "MCP · Weather server",
+    "description": "Patches descriptions and AI hints on tools exposed by an MCP server card.",
+    "targetType": "mcp-server-card-v1",
+    "url": "/examples/overlays/mcp-weather-server.overlay.json"
+  },
+  {
+    "id": "a2a-dispute-agent",
+    "title": "A2A · Dispute agent",
+    "description": "Enriches an A2A agent card with curated skills, hints, and example invocations.",
+    "targetType": "a2a-agent-card-v1",
+    "url": "/examples/overlays/a2a-dispute-agent.overlay.json"
+  },
+  {
+    "id": "csn-interop-airline",
+    "title": "CSN · Airline domain",
+    "description": "Marks entities and elements as private / customer-facing in a CSN Interop definition.",
+    "targetType": "csn-interop-effective-v1",
+    "url": "/examples/overlays/csn-interop-airline.overlay.json"
+  },
+  {
+    "id": "csn-interop-retail-product-category",
+    "title": "CSN · Retail product category",
+    "description": "Public-filter overlay over a retail CSN definition.",
+    "targetType": "csn-interop-effective-v1",
+    "url": "/examples/overlays/csn-interop-retail-product-category.overlay.json"
+  },
+  {
+    "id": "edmx-business-partner",
+    "title": "EDMX · Business Partner OData",
+    "description": "Annotates entities, properties, and operations of an OData service exposed via EDMX.",
+    "targetType": "edmx-v4",
+    "url": "/examples/overlays/edmx-business-partner.overlay.json"
+  },
+  {
+    "id": "edmx-all-selectors",
+    "title": "EDMX · All selectors",
+    "description": "Reference overlay that exercises every selector kind supported on EDMX targets.",
+    "targetType": "edmx-v4",
+    "url": "/examples/overlays/edmx-all-selectors.overlay.json"
+  }
+]
