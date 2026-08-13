@@ -112,7 +112,7 @@
   },
   "overrides": {
     "brace-expansion": "^1.1.18",
-    "dompurify": "3.4.12",
+    "dompurify": "3.4.13",
     "js-yaml": ">=4.3.1",
     "postcss": "8.5.23",
     "undici": "7.29.0"
