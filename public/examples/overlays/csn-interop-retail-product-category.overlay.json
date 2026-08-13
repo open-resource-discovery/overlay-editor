@@ -1,0 +1,133 @@
+{
+  "$schema": "https://open-resource-discovery.org/spec-v1/interfaces/OrdOverlay.schema.json#",
+  "ordOverlay": "0.1",
+  "ordId": "example.retail:overlay:bah-public-filter:v1",
+  "description": "Public-exposure filter for the retail Product Category CSN. Removes annotations that are not on the BAH allowlist (per the ADR's metadata-access classification) and rewrites in-file ABAP-style type aliases to plain CSN types. The whole patch set is generated programmatically from a single policy file; nothing here is hand-authored per Data Product.",
+  "visibility": "public",
+  "target": {
+    "ordId": "example.retail:apiResource:ProductCategory:v1",
+    "definitionType": "sap-csn-interop-effective-v1"
+  },
+  "patches": [
+    {
+      "action": "remove",
+      "selector": { "entityType": "ProductCategory" },
+      "data": {
+        "@AccessControl.authorizationCheck": null,
+        "@Analytics.dataCategory": null,
+        "@Analytics.dataExtraction.enabled": null,
+        "@Metadata.allowExtensions": null,
+        "@ObjectModel.sapObjectNodeType.name": null,
+        "@ObjectModel.usageType.dataClass": null,
+        "@ObjectModel.usageType.serviceQuality": null,
+        "@VDM.viewType": null,
+        "@EntityRelationship.entityIds": null,
+        "@ODM.oid": null,
+        "__abapOriginalName": null
+      }
+    },
+    {
+      "action": "remove",
+      "selector": { "entityType": "EX_CATEG_CODE" },
+      "data": { "@ObjectModel.upperCase": null }
+    },
+    {
+      "action": "remove",
+      "selector": {
+        "propertyType": "CategoryCode",
+        "entityType": "ProductCategory"
+      },
+      "data": {
+        "@AbapCatalog.typeSpec.outputLength": null,
+        "@AbapCatalog.typeSpec.changeDocumentRelevant": null,
+        "@EntityRelationship.propertyType": null,
+        "@ObjectModel.upperCase": null,
+        "__abapOriginalName": null
+      }
+    },
+    {
+      "action": "remove",
+      "selector": {
+        "propertyType": "CategoryName",
+        "entityType": "ProductCategory"
+      },
+      "data": {
+        "@AbapCatalog.typeSpec.outputLength": null,
+        "__abapOriginalName": null
+      }
+    },
+    {
+      "action": "remove",
+      "selector": {
+        "propertyType": "ParentCategoryCode",
+        "entityType": "ProductCategory"
+      },
+      "data": {
+        "@AbapCatalog.typeSpec.outputLength": null,
+        "__abapOriginalName": null
+      }
+    },
+    {
+      "action": "remove",
+      "selector": {
+        "propertyType": "ValidFrom",
+        "entityType": "ProductCategory"
+      },
+      "data": {
+        "@AbapCatalog.typeSpec.outputLength": null,
+        "__abapOriginalName": null
+      }
+    },
+    {
+      "action": "remove",
+      "selector": {
+        "propertyType": "ValidTo",
+        "entityType": "ProductCategory"
+      },
+      "data": {
+        "@AbapCatalog.typeSpec.outputLength": null,
+        "__abapOriginalName": null
+      }
+    },
+    {
+      "action": "merge",
+      "selector": {
+        "propertyType": "CategoryCode",
+        "entityType": "ProductCategory"
+      },
+      "data": { "type": "cds.String", "length": 8 }
+    },
+    {
+      "action": "merge",
+      "selector": {
+        "propertyType": "CategoryName",
+        "entityType": "ProductCategory"
+      },
+      "data": { "type": "cds.String", "length": 60 }
+    },
+    {
+      "action": "merge",
+      "selector": {
+        "propertyType": "ParentCategoryCode",
+        "entityType": "ProductCategory"
+      },
+      "data": { "type": "cds.String", "length": 8 }
+    },
+    {
+      "action": "merge",
+      "selector": {
+        "propertyType": "ValidFrom",
+        "entityType": "ProductCategory"
+      },
+      "data": { "type": "cds.Date" }
+    },
+    {
+      "action": "merge",
+      "selector": {
+        "propertyType": "ValidTo",
+        "entityType": "ProductCategory"
+      },
+      "data": { "type": "cds.Date" }
+    }
+  ]
+}
