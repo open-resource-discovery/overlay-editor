@@ -2,7 +2,7 @@
 
 # ORD Overlay Editor
 
-React components for viewing and editing [ORD Overlay 0.1](https://open-resource-discovery.github.io/specification/) documents.
+React components for viewing and editing [ORD Overlay 0.1](https://open-resource-discovery.org/spec-v1/interfaces/OrdOverlay) documents.
 
 👉 **LIVE DEMO** <https://open-resource-discovery.github.io/overlay-editor/>
 
