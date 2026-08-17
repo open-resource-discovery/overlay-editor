@@ -1,0 +1,49 @@
+name: PR Preview
+
+on:
+    pull_request:
+        branches: [main]
+        types: [opened, reopened, synchronize, closed]
+
+jobs:
+    pr-preview:
+        permissions:
+            contents: read
+            actions: write # required for upload-artifact in fork PRs
+            pull-requests: read
+
+        runs-on: ubuntu-latest
+
+        concurrency:
+            group: preview-${{ github.repository }}-${{ github.event.pull_request.number }}
+            cancel-in-progress: true
+
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  persist-credentials: false
+
+            - name: Setup Node
+              if: github.event.action != 'closed'
+              uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+              with:
+                  node-version: '24'
+
+            - name: Build preview
+              if: github.event.action != 'closed'
+              env:
+                  NEXT_PUBLIC_BASE_PATH: /pr-preview/overlay-editor/pr-${{ github.event.pull_request.number }}
+              run: |
+                  set -euo pipefail
+                  npm ci
+                  npm run build
+
+            - name: PR preview
+              uses: open-resource-discovery/pr-preview-action@2abf52396925f6bb4d0a82e27bd6f060260d09ae # main
+              with:
+                  fork: true
+                  target-repo: open-resource-discovery/pr-preview
+                  pages-base-url: https://open-resource-discovery.github.io/pr-preview
+                  umbrella-dir: overlay-editor
+                  token: ${{ secrets.PR_PREVIEW_TOKEN }}
+                  build-dir: out
