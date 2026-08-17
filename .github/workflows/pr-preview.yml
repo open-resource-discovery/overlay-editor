@@ -1,49 +1,66 @@
 name: PR Preview
 
 on:
-    pull_request:
-        branches: [main]
-        types: [opened, reopened, synchronize, closed]
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize, closed]
 
 jobs:
-    pr-preview:
-        permissions:
-            contents: read
-            actions: write # required for upload-artifact in fork PRs
-            pull-requests: read
+  pr-preview:
+    permissions:
+      contents: read
+      actions: write # required for upload-artifact in fork PRs
+      pull-requests: read
 
-        runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-        concurrency:
-            group: preview-${{ github.repository }}-${{ github.event.pull_request.number }}
-            cancel-in-progress: true
+    concurrency:
+      group: preview-${{ github.repository }}-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
 
-        steps:
-            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-              with:
-                  persist-credentials: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
-            - name: Setup Node
-              if: github.event.action != 'closed'
-              uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
-              with:
-                  node-version: '24'
+      - name: Setup Node
+        if: github.event.action != 'closed'
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
 
-            - name: Build preview
-              if: github.event.action != 'closed'
-              env:
-                  NEXT_PUBLIC_BASE_PATH: /pr-preview/overlay-editor/pr-${{ github.event.pull_request.number }}
-              run: |
-                  set -euo pipefail
-                  npm ci
-                  npm run build
+      - name: Build preview
+        if: github.event.action != 'closed'
+        env:
+          NEXT_PUBLIC_BASE_PATH: /pr-preview/overlay-editor/pr-${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          npm ci
+          npm run build
 
-            - name: PR preview
-              uses: open-resource-discovery/pr-preview-action@2abf52396925f6bb4d0a82e27bd6f060260d09ae # main
-              with:
-                  fork: true
-                  target-repo: open-resource-discovery/pr-preview
-                  pages-base-url: https://open-resource-discovery.github.io/pr-preview
-                  umbrella-dir: overlay-editor
-                  token: ${{ secrets.PR_PREVIEW_TOKEN }}
-                  build-dir: out
+      - name: Ensure .nojekyll in target repo
+        if: github.event.action != 'closed'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PR_PREVIEW_TOKEN }}
+        run: |
+          set -euo pipefail
+          repo_dir=$(mktemp -d)
+          git clone --depth=1 "https://x-access-token:${GITHUB_TOKEN}@github.com/open-resource-discovery/pr-preview.git" "$repo_dir"
+          if [ ! -f "$repo_dir/.nojekyll" ]; then
+            touch "$repo_dir/.nojekyll"
+            git -C "$repo_dir" config user.email "github-actions@github.com"
+            git -C "$repo_dir" config user.name "github-actions"
+            git -C "$repo_dir" add .nojekyll
+            git -C "$repo_dir" commit -m "chore: disable Jekyll to support Next.js deployments"
+            git -C "$repo_dir" push
+          fi
+
+      - name: PR preview
+        uses: open-resource-discovery/pr-preview-action@2abf52396925f6bb4d0a82e27bd6f060260d09ae # main
+        with:
+          fork: true
+          target-repo: open-resource-discovery/pr-preview
+          pages-base-url: https://open-resource-discovery.github.io/pr-preview
+          umbrella-dir: overlay-editor
+          token: ${{ secrets.PR_PREVIEW_TOKEN }}
+          build-dir: out
