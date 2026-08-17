@@ -5,7 +5,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) rules.
 
-
 ## [unreleased]
 
 ## [[0.2.0](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.0)] - 2026-08-17
@@ -19,5 +18,3 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Public types: `OverlayCardViewProps`, `OverlayState`, `Theme`, `ResolvedTheme`, `OrdOverlay`, `OverlayAction`, `OverlayPatch`, `OverlayPerspective`, `OverlaySelector`, `OverlayTarget`, `OverlayVisibility`.
 - Bundled example overlays (OpenAPI, A2A, MCP) for the live demo playground.
 - GitHub Pages demo at <https://open-resource-discovery.github.io/overlay-editor/>.
-
-
