@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [unreleased]
 
+## [[0.2.0](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.0)] - 2026-08-17
+
 ### Added
 
 - Initial open-source release.
