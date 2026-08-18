@@ -18,3 +18,4 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Public types: `OverlayCardViewProps`, `OverlayState`, `Theme`, `ResolvedTheme`, `OrdOverlay`, `OverlayAction`, `OverlayPatch`, `OverlayPerspective`, `OverlaySelector`, `OverlayTarget`, `OverlayVisibility`.
 - Bundled example overlays (OpenAPI, A2A, MCP) for the live demo playground.
 - GitHub Pages demo at <https://open-resource-discovery.github.io/overlay-editor/>.
+- PR preview
