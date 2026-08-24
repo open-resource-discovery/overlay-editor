@@ -1,0 +1,10 @@
+{
+  // This config is used by the editor / `tsc` typecheck. Docusaurus compiles
+  // TS on its own, so these options only shape the local dev experience.
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "resolveJsonModule": true
+  },
+  "exclude": [".docusaurus", "build"]
+}

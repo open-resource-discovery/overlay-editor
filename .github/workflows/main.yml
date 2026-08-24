@@ -65,7 +65,14 @@ jobs:
       - name: Build library
         run: npm run build:lib
 
-      - name: Build demo app
+      - name: Install website dependencies
+        working-directory: ./website
+        run: npm ci
+
+      - name: Build Docusaurus website
+        working-directory: ./website
+        env:
+          BASE_URL: /overlay-editor/
         run: npm run build
 
   inclusive-language:

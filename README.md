@@ -26,11 +26,12 @@ npm install @open-resource-discovery/overlay-editor
 ## Usage
 
 ```tsx
-import { OverlayCardView } from "@open-resource-discovery/overlay-editor/card-view";
+import { OverlayCardView } from "@open-resource-discovery/overlay-editor";
 import "@open-resource-discovery/overlay-editor/styles";
 
-export function MyView({ overlay }: { overlay: OrdOverlay }) {
-  return <OverlayCardView overlay={overlay} />;
+export function MyView({ overlay }: { overlay: string }) {
+  // `content` is the overlay document as JSON or YAML text.
+  return <OverlayCardView content={overlay} />;
 }
 ```
 
@@ -45,21 +46,26 @@ src/lib/             Library source (Vite lib build target)
   card-view/         OverlayCardView + store + useTheme + helpers
   styles.css         Bundled CSS
 
-app/                 Next.js demo (App Router, static export)
-components/playground/   Demo shell + Playground + JsonEditor
-lib/playground/      Demo data (predefined overlays + JSON schema)
-public/examples/     Bundled overlay examples for the demo
+website/             Docusaurus site (docs + interactive playground)
+  src/pages/         Home + playground
+  src/components/Playground/   Selector + Monaco editor + live card renderer
+  docs/              Getting started / overview / API reference
+  static/            Bundled overlay examples + manifest
 ```
 
 ## Development
 
 ```bash
 npm install
-npm run dev          # Next.js demo on http://localhost:3000
-npm run check        # typecheck + lint + Vitest
-npm run build        # Next.js static export
-npm run build:lib    # Vite library build → dist/
+npm run website:start   # Rebuilds the lib, then runs Docusaurus on http://localhost:3000
+npm run check           # typecheck + lint + Vitest
+npm run build:lib       # Vite library build → dist/
+npm run website:build   # Static site build → website/build
 ```
+
+> The website consumes the library via `file:..` and rebuilds it automatically
+> (`prestart`/`prebuild`). When changing `src/lib`, re-run the library build (or
+> `website:start`) to see updates on the site.
 
 ## Contributing
 

@@ -15,9 +15,10 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# docusaurus website
+/website/node_modules
+/website/build
+/website/.docusaurus
 
 # production
 /build
@@ -40,5 +41,4 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 .claude/
