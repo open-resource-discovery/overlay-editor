@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [unreleased]
 
+### Changed
+
+- Improved the overlay card layout across embedded and narrow containers by aligning the sidebar search row with the toolbar, sizing the desktop sidebar to its host, and keeping the narrow-screen toolbar and footer visible.
+
 ## [[0.2.0](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.0)] - 2026-08-17
 
 ### Added

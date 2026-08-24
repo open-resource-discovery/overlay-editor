@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import {
   parseSectionDomId,
   sectionsEqual,
@@ -11,6 +11,8 @@ export function useScrollSpy(
   sectionIds: string[],
   current: ActiveSection,
   onChange: (next: ActiveSection) => void,
+  scrollRootRef: RefObject<HTMLElement | null>,
+  useScrollRoot: boolean,
 ) {
   const currentRef = useRef(current);
   useEffect(() => {
@@ -22,6 +24,7 @@ export function useScrollSpy(
       .map((id) => document.getElementById(id))
       .filter((node): node is HTMLElement => node !== null);
     if (nodes.length === 0) return;
+    const root = useScrollRoot ? scrollRootRef.current : null;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -35,10 +38,10 @@ export function useScrollSpy(
         const next = parseSectionDomId(topmostVisible.target.id);
         if (next && !sectionsEqual(next, currentRef.current)) onChange(next);
       },
-      { rootMargin: TOP_VIEWPORT_MARGIN, threshold: 0 },
+      { root, rootMargin: TOP_VIEWPORT_MARGIN, threshold: 0 },
     );
 
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
-  }, [sectionIds, onChange]);
+  }, [sectionIds, onChange, scrollRootRef, useScrollRoot]);
 }
