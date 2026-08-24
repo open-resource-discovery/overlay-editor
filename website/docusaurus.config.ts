@@ -31,8 +31,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl:
-            'https://github.com/open-resource-discovery/overlay-editor/tree/main/website/',
         },
         blog: false,
         theme: {
