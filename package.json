@@ -84,7 +84,7 @@
   "dependencies": {
     "@open-resource-discovery/ui-components": "^0.1.3",
     "lucide-react": "^1.22.0",
-"yaml": "^2.9.0",
+    "yaml": "^2.9.0",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
