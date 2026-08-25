@@ -1,4 +1,11 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type RefObject,
+} from "react";
 import { Input, cn } from "@open-resource-discovery/ui-components";
 import { Search } from "lucide-react";
 import {
@@ -31,6 +38,8 @@ type Props = {
   overlay: OrdOverlay;
   activeSection: ActiveSection;
   onSectionChange: (next: ActiveSection) => void;
+  scrollRootRef: RefObject<HTMLElement | null>;
+  useScrollRoot: boolean;
 };
 
 function buildEntries(overlay: OrdOverlay): {
@@ -82,6 +91,8 @@ export function OverlaySidebar({
   overlay,
   activeSection,
   onSectionChange,
+  scrollRootRef,
+  useScrollRoot,
 }: Props) {
   const { meta, patches } = useMemo(() => buildEntries(overlay), [overlay]);
   const [query, setQuery] = useState("");
@@ -94,7 +105,13 @@ export function OverlaySidebar({
     () => [...meta, ...patches].map((entry) => sectionDomId(entry.section)),
     [meta, patches],
   );
-  useScrollSpy(allSectionIds, activeSection, onSectionChange);
+  useScrollSpy(
+    allSectionIds,
+    activeSection,
+    onSectionChange,
+    scrollRootRef,
+    useScrollRoot,
+  );
   useHashSync(activeSection);
 
   const normalizedQuery = query.trim().toLowerCase();
@@ -181,19 +198,38 @@ export function OverlaySidebar({
           ) : null}
         </nav>
 
-        <footer className="overlay-sidebar-footer">
-          <span>ORD Overlay {overlay.ordOverlay}</span>
-          <span aria-hidden className="overlay-sidebar-footer-spacer" />
-          <a
-            href="https://open-resource-discovery.org"
-            target="_blank"
-            rel="noreferrer"
-          >
-            open-resource-discovery.org
-          </a>
-        </footer>
+        <OverlaySidebarFooter
+          ordOverlay={overlay.ordOverlay}
+          className="overlay-sidebar-footer-desktop"
+        />
       </div>
     </aside>
+  );
+}
+
+type FooterProps = {
+  ordOverlay: string;
+  className?: string;
+  style?: CSSProperties;
+};
+
+export function OverlaySidebarFooter({
+  ordOverlay,
+  className,
+  style,
+}: FooterProps) {
+  return (
+    <footer className={cn("overlay-sidebar-footer", className)} style={style}>
+      <span>ORD Overlay {ordOverlay}</span>
+      <span aria-hidden className="overlay-sidebar-footer-spacer" />
+      <a
+        href="https://open-resource-discovery.org"
+        target="_blank"
+        rel="noreferrer"
+      >
+        open-resource-discovery.org
+      </a>
+    </footer>
   );
 }
 
