@@ -10,6 +10,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Fixed
 
 - Added a `default` export condition alongside `import` in the package `exports`, so bundlers and server-side renderers that resolve under `require`/`module`/`node` conditions (e.g. Docusaurus/webpack) can load the package.
+- Restored `@monaco-editor/react` as a dev dependency so the library's unit tests (which render `OverlayCardView` → `ui-components`) can resolve it.
+- Scoped the Vitest `exclude` to `**/node_modules/**` so test collection no longer descends into `website/node_modules`.
+- Reset the playground's card renderer error boundary when the overlay content changes, so a render error no longer persists after selecting or fixing another overlay.
 
 ### Changed
 

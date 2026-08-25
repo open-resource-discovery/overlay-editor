@@ -56,11 +56,12 @@ website/             Docusaurus site (docs + interactive playground)
 ## Development
 
 ```bash
-npm install
-npm run website:start   # Rebuilds the lib, then runs Docusaurus on http://localhost:3000
-npm run check           # typecheck + lint + Vitest
-npm run build:lib       # Vite library build → dist/
-npm run website:build   # Static site build → website/build
+npm install              # root (library) dependencies
+npm --prefix website ci  # website dependencies (separate; run once per checkout)
+npm run website:start    # Rebuilds the lib, then runs Docusaurus on http://localhost:3000
+npm run check            # typecheck + lint + Vitest
+npm run build:lib        # Vite library build → dist/
+npm run website:build    # Static site build → website/build
 ```
 
 > The website consumes the library via `file:..` and rebuilds it automatically

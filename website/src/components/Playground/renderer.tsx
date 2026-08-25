@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import ErrorBoundary from '@docusaurus/ErrorBoundary';
 
 type Props = {
   /** Raw overlay document (JSON or YAML text). */
@@ -8,6 +7,32 @@ type Props = {
   /** Current Docusaurus color mode, synced into the library's theme store. */
   colorMode: 'light' | 'dark';
 };
+
+// Error boundary that clears its caught error when `resetKey` changes. Unlike a
+// plain `key`, this does NOT remount the (healthy) child on every re-render —
+// it only re-renders children again after an error once the input that caused
+// it has changed. So a render failure recovers when the user selects another
+// overlay or edits the current one, without a full remount per keystroke.
+class ResettableErrorBoundary extends React.Component<
+  { resetKey: unknown; fallback: React.ReactNode; children: React.ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError(): { hasError: true } {
+    return { hasError: true };
+  }
+
+  componentDidUpdate(prevProps: { resetKey: unknown }): void {
+    if (this.state.hasError && prevProps.resetKey !== this.props.resetKey) {
+      this.setState({ hasError: false });
+    }
+  }
+
+  render(): React.ReactNode {
+    return this.state.hasError ? this.props.fallback : this.props.children;
+  }
+}
 
 // `@open-resource-discovery/overlay-editor` is ESM-only, renders under
 // `"use client"`, and injects its layout `<style>` into `document.head` at
@@ -32,15 +57,19 @@ const LazyCard = lazy(async () => {
   return { default: ThemedCard };
 });
 
-export default function Renderer({ content, colorMode }: Props): React.JSX.Element | null {
+export default function Renderer({
+  content,
+  colorMode,
+}: Props): React.JSX.Element | null {
   if (!content) return null;
   return (
-    <ErrorBoundary
-      fallback={() => (
+    <ResettableErrorBoundary
+      resetKey={content}
+      fallback={
         <div className="grid h-full place-items-center p-6 text-center text-sm text-destructive">
           Could not render this overlay.
         </div>
-      )}
+      }
     >
       <BrowserOnly>
         {() => (
@@ -49,6 +78,6 @@ export default function Renderer({ content, colorMode }: Props): React.JSX.Eleme
           </Suspense>
         )}
       </BrowserOnly>
-    </ErrorBoundary>
+    </ResettableErrorBoundary>
   );
 }
