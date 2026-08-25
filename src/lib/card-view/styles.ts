@@ -6,6 +6,14 @@ const overlayLayoutStyles = `
  * is provided by @open-resource-discovery/ui-components' ThemeRoot and is
  * automatically swapped between light and dark themes by useTheme().
  * ============================================================================ */
+@layer base {
+    :where(.overlay-card-view) {
+        --overlay-sidebar-footer-height: 35px;
+        height: 100%;
+        min-height: 0;
+    }
+}
+
 .overlay-root {
     /* accent — Scalar's display-p3 blue, used for active sidebar items + hits */
     --overlay-accent: #0099ff;
@@ -23,7 +31,8 @@ const overlayLayoutStyles = `
 
     color: var(--ord-foreground);
     background: var(--ord-background);
-    min-height: 100%;
+    height: 100%;
+    min-height: 0;
 
     /* container queries target this element via @container overlay-root (...) */
     container-type: inline-size;
@@ -40,30 +49,30 @@ const overlayLayoutStyles = `
  * ============================================================================ */
 .overlay-shell {
     display: grid;
+    grid-template-areas:
+        "toolbar"
+        "sidebar"
+        "content";
     grid-template-columns: minmax(0, 1fr);
+    align-content: start;
     min-height: 100%;
     background: var(--ord-background);
 }
-@container overlay-root (min-width: 720px) {
-    .overlay-shell {
-        grid-template-columns: var(--overlay-sidebar-width) minmax(0, 1fr);
-    }
-}
 
 /* ============================================================================
- * Sidebar — three-section sticky inner (search / nav / footer)
+ * Sidebar — search / navigation / footer
  * ============================================================================ */
 .overlay-sidebar {
+    grid-area: sidebar;
     background: var(--ord-background);
     border-right: 1px solid var(--ord-border);
 }
 .overlay-sidebar-inner {
-    position: sticky;
-    top: 0;
-    height: 100dvh;
+    position: static;
+    height: auto;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: visible;
 }
 .overlay-sidebar-header {
     display: flex;
@@ -89,7 +98,7 @@ const overlayLayoutStyles = `
 .overlay-sidebar-search-input {
     padding-left: 26px;
     padding-right: 56px;
-    height: 32px;
+    height: 31px;
     font-size: 13px;
     border-radius: 6px;
     width: 100%;
@@ -110,8 +119,8 @@ const overlayLayoutStyles = `
     pointer-events: none;
 }
 .overlay-sidebar-nav {
-    flex: 1;
-    overflow-y: auto;
+    flex: none;
+    overflow-y: visible;
     padding: 6px 12px;
     display: flex;
     flex-direction: column;
@@ -120,12 +129,21 @@ const overlayLayoutStyles = `
 .overlay-sidebar-footer {
     flex-shrink: 0;
     border-top: 1px solid var(--ord-border);
+    background: var(--ord-background);
     padding: 8px 12px;
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 11px;
     color: var(--ord-muted-foreground);
+}
+.overlay-sidebar-footer-mobile {
+    position: fixed;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    height: var(--overlay-sidebar-footer-height);
+    box-sizing: border-box;
 }
 .overlay-sidebar-footer a {
     color: var(--ord-muted-foreground);
@@ -210,12 +228,8 @@ const overlayLayoutStyles = `
 /* ============================================================================
  * Main column
  * ============================================================================ */
-.overlay-main {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-}
 .overlay-toolbar {
+    grid-area: toolbar;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -256,8 +270,40 @@ const overlayLayoutStyles = `
 .overlay-toolbar-link:hover { background: var(--ord-muted); }
 
 .overlay-main-content {
+    grid-area: content;
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    padding-bottom: 0;
+}
+
+@container overlay-root (min-width: 720px) {
+    .overlay-shell {
+        height: 100%;
+        min-height: 0;
+        grid-template-areas:
+            "sidebar toolbar"
+            "sidebar content";
+        grid-template-columns: var(--overlay-sidebar-width) minmax(0, 1fr);
+        grid-template-rows: var(--overlay-toolbar-height) minmax(0, 1fr);
+    }
+    .overlay-sidebar {
+        min-height: 0;
+    }
+    .overlay-sidebar-inner {
+        position: sticky;
+        top: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+    .overlay-sidebar-nav {
+        flex: 1;
+        overflow-y: auto;
+    }
+    .overlay-main-content {
+        min-height: 0;
+        overflow-y: auto;
+    }
 }
 
 /* Each top-level block (hero / target / patches) is wrapped in this section. */
@@ -491,8 +537,12 @@ body.navigation-with-keyboard .overlay-root :focus-visible {
 }
 
 /* Narrow container — tighten section padding so content doesn't crowd edges. */
-@container overlay-root (max-width: 720px) {
+@container overlay-root (width < 720px) {
     .overlay-section { padding: 32px 16px; }
+    .overlay-sidebar-footer-desktop { display: none; }
+    .overlay-main-content {
+        padding-bottom: var(--overlay-sidebar-footer-height);
+    }
 }
 `;
 

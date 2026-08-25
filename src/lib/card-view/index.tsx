@@ -1,6 +1,7 @@
 "use client";
 
 import "@open-resource-discovery/ui-components/styles";
+import { cn } from "@open-resource-discovery/ui-components";
 import { useEffect } from "react";
 import { useOverlayStore } from "./store";
 import { OverlayApp } from "./OverlayApp";
@@ -50,7 +51,7 @@ export function OverlayCardView({ content, className }: OverlayCardViewProps) {
   }, [content]);
 
   return (
-    <div className={className}>
+    <div className={cn("overlay-card-view", className)}>
       <OverlayApp />
     </div>
   );
