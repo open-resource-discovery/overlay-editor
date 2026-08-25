@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [unreleased]
 
+### Changed
+
+- Replaced the custom shiki highlighter in `PatchData` with `CodeBlock`'s built-in highlight.js default. The `highlighter.ts` singleton, the `useHighlighter` hook, and the `highlighter`/`lightTheme`/`darkTheme` props passed to `<CodeBlock>` have been removed. `shiki` is no longer a runtime dependency (16 packages removed).
+
 ### Fixed
 
 - Added a `default` export condition alongside `import` in the package `exports`, so bundlers and server-side renderers that resolve under `require`/`module`/`node` conditions (e.g. Docusaurus/webpack) can load the package.

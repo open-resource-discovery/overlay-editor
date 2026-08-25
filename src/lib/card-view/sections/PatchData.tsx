@@ -1,15 +1,6 @@
-import { useEffect, useState } from "react";
 import { Badge, CodeBlock } from "@open-resource-discovery/ui-components";
-import type { Highlighter } from "shiki";
-import { getHighlighter } from "../util/highlighter";
 import { toYaml } from "../util/serialize";
 import type { OverlayAction, OverlayPatch } from "../types";
-
-// ord-ui's HighlighterLike widens shiki's codeToHtml options to Record<string, unknown>;
-// shiki's signature requires `lang`. Runtime contract holds — pass through.
-type OrdUiHighlighter = {
-  codeToHtml: (code: string, options: Record<string, unknown>) => string;
-};
 
 const PATCH_DATA_PRESENTATION: Record<
   OverlayAction,
@@ -22,22 +13,7 @@ const PATCH_DATA_PRESENTATION: Record<
 
 type Props = { patch: OverlayPatch };
 
-function useHighlighter(): Highlighter | undefined {
-  const [highlighter, setHighlighter] = useState<Highlighter | undefined>();
-  useEffect(() => {
-    let cancelled = false;
-    getHighlighter().then((loaded) => {
-      if (!cancelled) setHighlighter(loaded);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-  return highlighter;
-}
-
 export function PatchData({ patch }: Props) {
-  const highlighter = useHighlighter();
   const { action, data } = patch;
 
   if (action === "remove" && data === undefined) {
@@ -68,9 +44,6 @@ export function PatchData({ patch }: Props) {
         code={toYaml(data)}
         language="yaml"
         filename={filename}
-        highlighter={highlighter as unknown as OrdUiHighlighter | undefined}
-        lightTheme="github-light"
-        darkTheme="github-dark"
         maxHeight="320px"
       />
     </section>
