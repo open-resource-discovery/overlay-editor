@@ -45,7 +45,8 @@
     "postcss": ">=8.5.23",
     "undici": ">=7.29.0 <8",
     "serialize-javascript": "^7.0.3",
-    "webpack-dev-server": ">=6.0.0"
+    "webpack-dev-server": ">=6.0.0",
+    "memfs": "4.68.0"
   },
   "browserslist": {
     "production": [">0.5%", "not dead", "not op_mini all"],
