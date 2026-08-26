@@ -1,0 +1,11 @@
+# Library build output
+dist
+
+# The Docusaurus site is a separate sub-project with its own conventions.
+website
+
+# Vendored / generated
+node_modules
+LICENSES
+CHANGELOG.md
+package-lock.json

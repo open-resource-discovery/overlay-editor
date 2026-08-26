@@ -1,0 +1,18 @@
+/* Full-height playground shell: fill the viewport below the navbar and let the
+   inner SplitPane manage its own scrolling. */
+.playground {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--ifm-navbar-height));
+  min-height: 0;
+  overflow: hidden;
+}
+
+.loading {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.875rem;
+}
