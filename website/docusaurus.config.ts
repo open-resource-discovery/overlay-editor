@@ -59,6 +59,8 @@ const config: Config = {
     },
   ],
 
+  themes: ['@easyops-cn/docusaurus-search-local'],
+
   themeConfig: {
     colorMode: {
       respectPrefersColorScheme: false,
@@ -78,6 +80,7 @@ const config: Config = {
           href: 'https://github.com/open-resource-discovery/overlay-editor',
           label: 'GitHub',
           position: 'right',
+          className: 'header-github-pill',
         },
       ],
     },

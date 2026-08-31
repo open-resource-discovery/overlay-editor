@@ -46,7 +46,7 @@ function HomeContent(): React.JSX.Element {
         <p className="max-w-2xl text-lg text-muted-foreground">
           Visualize and edit{' '}
           <a
-            href="https://open-resource-discovery.org"
+            href="https://open-resource-discovery.org/spec-v1/interfaces/OrdOverlay"
             className="underline-offset-4 hover:underline"
             target="_blank"
             rel="noreferrer noopener"

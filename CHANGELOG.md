@@ -8,6 +8,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [unreleased]
 
+### Added
+
+- Added Neo Nephos footer (swizzled Docusaurus `Footer` component) with EU/NextGenerationEU funding notice, Linux Foundation Europe copyright, and theme-aware Neonephos logo, matching the `a2a-editor` site.
+- Added `@easyops-cn/docusaurus-search-local` for full-text doc search in the navbar.
+- Styled the navbar GitHub button and search bar to match the `a2a-editor` site (GitHub SVG icon pill, custom search box with icon and keyboard hint).
+
+### Fixed
+
+- Updated ORD Overlay spec link on the home page hero to point directly to the overlay interface spec (`/spec-v1/interfaces/OrdOverlay`).
+
 ## [[0.2.1](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.1)] - 2026-08-26
 
 ### Fixed
