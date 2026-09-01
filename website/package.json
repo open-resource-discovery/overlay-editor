@@ -18,8 +18,8 @@
   },
   "dependencies": {
     "@docusaurus/core": "3.10.2",
-    "@easyops-cn/docusaurus-search-local": "0.55.3",
     "@docusaurus/preset-classic": "3.10.2",
+    "@easyops-cn/docusaurus-search-local": "0.55.3",
     "@mdx-js/react": "^3.0.0",
     "@monaco-editor/react": "^4.7.0",
     "@open-resource-discovery/overlay-editor": "file:..",
@@ -46,10 +46,14 @@
     "postcss": ">=8.5.23",
     "undici": ">=7.29.0 <8",
     "serialize-javascript": "^7.0.3",
-    "webpack-dev-server": ">=6.0.0"
+    "uuid": "^14.0.2"
   },
   "browserslist": {
-    "production": [">0.5%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 3 chrome version",
       "last 3 firefox version",

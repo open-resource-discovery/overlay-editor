@@ -5,6 +5,14 @@ import type * as Preset from '@docusaurus/preset-classic';
 // below so utility classes used by the chrome are generated at build time.
 import tailwindcss from '@tailwindcss/postcss';
 
+const baseUrl = process.env.BASE_URL || '/overlay-editor/';
+
+// The Home item should only be highlighted on the exact root page.
+// activeBaseRegex is matched against location.pathname, which includes baseUrl,
+// so match the baseUrl exactly (with or without a trailing slash).
+const homeActiveRegex = `^${baseUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\/$/, '')}/?$`;
+
+
 const config: Config = {
   title: 'ORD Overlay Editor',
   tagline: 'View and edit ORD Overlay documents',
@@ -13,7 +21,7 @@ const config: Config = {
 
   url: 'https://open-resource-discovery.github.io',
   // Overridable for PR previews; trailing slash is required by Docusaurus.
-  baseUrl: process.env.BASE_URL || '/overlay-editor/',
+  baseUrl,
   organizationName: 'open-resource-discovery',
   projectName: 'overlay-editor',
 
@@ -42,7 +50,10 @@ const config: Config = {
 
   // ui-components' stylesheet is a JS-side-effect import, so it lives in a
   // client module rather than `theme.customCss` (which only takes CSS files).
-  clientModules: ['./clientModules/ordUi.ts'],
+  clientModules: [
+    './clientModules/ordUi.ts',
+    './clientModules/suppressResizeObserverError.ts',
+  ],
 
   plugins: [
     // Wire Tailwind v4 into Docusaurus' PostCSS pipeline. Utilities are imported
@@ -68,7 +79,8 @@ const config: Config = {
     navbar: {
       title: 'ORD Overlay Editor',
       items: [
-        { to: '/', label: 'Home', position: 'left', activeBasePath: '/' },
+        { to: '/', label: 'Home', position: 'left', activeBasePath: '/', 
+                    activeBaseRegex: homeActiveRegex, },
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
