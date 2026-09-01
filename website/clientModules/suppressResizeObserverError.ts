@@ -17,14 +17,14 @@
 // overlay if it managed to render first. All other errors pass through
 // untouched.
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
 // The dev overlay only exists in development; skip the listener entirely in
 // production so nothing extra ships to users.
-if (ExecutionEnvironment.canUseDOM && process.env.NODE_ENV !== 'production') {
+if (ExecutionEnvironment.canUseDOM && process.env.NODE_ENV !== "production") {
   const BENIGN_MESSAGES = [
-    'ResizeObserver loop completed with undelivered notifications.',
-    'ResizeObserver loop limit exceeded',
+    "ResizeObserver loop completed with undelivered notifications.",
+    "ResizeObserver loop limit exceeded",
   ];
 
   const isBenign = (message?: string): boolean =>
@@ -33,12 +33,14 @@ if (ExecutionEnvironment.canUseDOM && process.env.NODE_ENV !== 'production') {
   const hideDevServerOverlay = (): void => {
     // webpack-dev-server renders the overlay into a host element with this id
     // (its content lives in a shadow root, so hiding the host hides all of it).
-    const overlay = document.getElementById('webpack-dev-server-client-overlay');
-    if (overlay) overlay.style.display = 'none';
+    const overlay = document.getElementById(
+      "webpack-dev-server-client-overlay",
+    );
+    if (overlay) overlay.style.display = "none";
   };
 
   window.addEventListener(
-    'error',
+    "error",
     (event: ErrorEvent) => {
       if (!isBenign(event.message)) return;
       // Best effort: if our listener runs before the overlay's, this stops it

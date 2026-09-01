@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
-import { useColorMode } from '@docusaurus/theme-common';
-import Editor, { type BeforeMount, type OnMount } from '@monaco-editor/react';
-import type { editor } from 'monaco-editor';
-import ordOverlaySchema from './schemas/OrdOverlay.schema.json';
+import { useEffect, useRef } from "react";
+import { useColorMode } from "@docusaurus/theme-common";
+import Editor, { type BeforeMount, type OnMount } from "@monaco-editor/react";
+import type { editor } from "monaco-editor";
+import ordOverlaySchema from "./schemas/OrdOverlay.schema.json";
 
 interface JsonEditorProps {
   value: string;
@@ -14,14 +14,14 @@ interface JsonEditorProps {
 }
 
 const ORD_OVERLAY_SCHEMA_URI =
-  'https://open-resource-discovery.org/spec-v1/interfaces/OrdOverlay.schema.json';
+  "https://open-resource-discovery.org/spec-v1/interfaces/OrdOverlay.schema.json";
 
 export function getJsonDiagnosticsOptions() {
   return {
     validate: true,
     allowComments: false,
     enableSchemaRequest: false,
-    schemaRequest: 'ignore' as const,
+    schemaRequest: "ignore" as const,
     schemas: [
       {
         uri: ORD_OVERLAY_SCHEMA_URI,
@@ -41,8 +41,8 @@ export function JsonEditor({
   value,
   onChange,
   readOnly = false,
-  language = 'json',
-  height = '100%',
+  language = "json",
+  height = "100%",
   highlightLines,
 }: JsonEditorProps) {
   const { colorMode } = useColorMode();
@@ -70,8 +70,8 @@ export function JsonEditor({
         },
         options: {
           isWholeLine: true,
-          className: 'target-highlight-line',
-          marginClassName: 'target-highlight-margin',
+          className: "target-highlight-line",
+          marginClassName: "target-highlight-margin",
         },
       }));
     if (!decorationsRef.current) {
@@ -96,10 +96,10 @@ export function JsonEditor({
         scrollBeyondLastLine: false,
         fontSize: 13,
         tabSize: 2,
-        wordWrap: 'on',
+        wordWrap: "on",
         automaticLayout: true,
       }}
-      theme={colorMode === 'dark' ? 'vs-dark' : 'light'}
+      theme={colorMode === "dark" ? "vs-dark" : "light"}
     />
   );
 }

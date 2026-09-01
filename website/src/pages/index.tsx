@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import Layout from '@theme/Layout';
-import Link from '@docusaurus/Link';
-import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
-import { Layers, ArrowRight } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import Layout from "@theme/Layout";
+import Link from "@docusaurus/Link";
+import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
+import { Layers, ArrowRight } from "lucide-react";
 import {
   loadPredefinedOverlays,
   type PredefinedOverlay,
-} from '@site/src/lib/predefined-overlays';
+} from "@site/src/lib/predefined-overlays";
 
 function targetLabel(t: string): string {
-  if (t.startsWith('openapi')) return 'OpenAPI';
-  if (t.startsWith('csn')) return 'CSN';
-  if (t.startsWith('edmx')) return 'EDMX';
-  if (t.startsWith('mcp')) return 'MCP';
-  if (t.startsWith('a2a')) return 'A2A';
+  if (t.startsWith("openapi")) return "OpenAPI";
+  if (t.startsWith("csn")) return "CSN";
+  if (t.startsWith("edmx")) return "EDMX";
+  if (t.startsWith("mcp")) return "MCP";
+  if (t.startsWith("a2a")) return "A2A";
   return t;
 }
 
@@ -44,7 +44,7 @@ function HomeContent(): React.JSX.Element {
           ORD Overlay Editor
         </h1>
         <p className="max-w-2xl text-lg text-muted-foreground">
-          Visualize and edit{' '}
+          Visualize and edit{" "}
           <a
             href="https://open-resource-discovery.org/spec-v1/interfaces/OrdOverlay"
             className="underline-offset-4 hover:underline"
@@ -52,7 +52,7 @@ function HomeContent(): React.JSX.Element {
             rel="noreferrer noopener"
           >
             ORD Overlay
-          </a>{' '}
+          </a>{" "}
           documents. Open the playground to browse predefined examples, paste
           your own JSON or YAML, and see the rendered view live.
         </p>

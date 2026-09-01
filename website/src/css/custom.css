@@ -9,8 +9,8 @@
  *
  * `@import` rules must come first per the CSS spec.
  */
-@import 'tailwindcss/theme.css';
-@import 'tailwindcss/utilities.css';
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
 
 /* Tell Tailwind where to scan for class names (relative to this file). */
 @source '../';
@@ -68,7 +68,7 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --ifm-color-primary: #3aa0ff;
   --ifm-color-primary-dark: #1b90ff;
   --ifm-color-primary-darker: #0b88ff;
@@ -111,7 +111,7 @@
   --sidebar-accent-foreground: #1a1a1a;
 }
 
-[data-theme='dark'],
+[data-theme="dark"],
 .ord-ui.dark {
   --background: #1e1e1e;
   --foreground: #d4d4d4;
@@ -252,7 +252,13 @@ html[data-theme="dark"] {
 }
 
 /* ===== Search bar ===== */
-html[data-theme="light"] nav.navbar :is(.navbar__search, [class*="searchbarContainer_"], [class*="searchBarContainer_"]) {
+html[data-theme="light"]
+  nav.navbar
+  :is(
+    .navbar__search,
+    [class*="searchbarContainer_"],
+    [class*="searchBarContainer_"]
+  ) {
   position: relative;
   width: 160px;
   height: 31px;
@@ -265,7 +271,13 @@ html[data-theme="light"] nav.navbar :is(.navbar__search, [class*="searchbarConta
   border: 1px solid var(--c-sep) !important;
   box-shadow: none !important;
 }
-html[data-theme="light"] nav.navbar :is(.navbar__search, [class*="searchbarContainer_"], [class*="searchBarContainer_"])::before {
+html[data-theme="light"]
+  nav.navbar
+  :is(
+    .navbar__search,
+    [class*="searchbarContainer_"],
+    [class*="searchBarContainer_"]
+  )::before {
   content: "";
   position: absolute;
   left: 8px;
@@ -279,7 +291,9 @@ html[data-theme="light"] nav.navbar :is(.navbar__search, [class*="searchbarConta
   pointer-events: none;
   background-color: var(--c-text);
 }
-html[data-theme="light"] nav.navbar :is(input.navbar__search-input, input[class*="searchInput_"]) {
+html[data-theme="light"]
+  nav.navbar
+  :is(input.navbar__search-input, input[class*="searchInput_"]) {
   flex: 1;
   min-width: 0;
   padding-left: 22px;
@@ -290,7 +304,9 @@ html[data-theme="light"] nav.navbar :is(input.navbar__search-input, input[class*
   outline: none;
   font-size: 14px;
 }
-html[data-theme="light"] nav.navbar :is(input.navbar__search-input, input[class*="searchInput_"])::placeholder {
+html[data-theme="light"]
+  nav.navbar
+  :is(input.navbar__search-input, input[class*="searchInput_"])::placeholder {
   color: rgba(27, 36, 42, 0.65);
   opacity: 1;
 }
@@ -311,7 +327,9 @@ html[data-theme="light"] nav.navbar :is([class*="searchHintContainer_"]) {
 html[data-theme="light"] nav.navbar :is([class*="searchHintContainer_"]) > * {
   display: none !important;
 }
-html[data-theme="light"] nav.navbar :is([class*="searchHintContainer_"])::before {
+html[data-theme="light"]
+  nav.navbar
+  :is([class*="searchHintContainer_"])::before {
   content: "";
   display: block;
   width: 100%;
@@ -319,7 +337,13 @@ html[data-theme="light"] nav.navbar :is([class*="searchHintContainer_"])::before
   background: url("/img/icons/cmd-k.svg") center/contain no-repeat;
 }
 
-html[data-theme="dark"] nav.navbar :is(.navbar__search, [class*="searchbarContainer_"], [class*="searchBarContainer_"]) {
+html[data-theme="dark"]
+  nav.navbar
+  :is(
+    .navbar__search,
+    [class*="searchbarContainer_"],
+    [class*="searchBarContainer_"]
+  ) {
   position: relative;
   width: 160px;
   height: 31px;
@@ -332,7 +356,13 @@ html[data-theme="dark"] nav.navbar :is(.navbar__search, [class*="searchbarContai
   border: 1px solid var(--c-sep) !important;
   box-shadow: none !important;
 }
-html[data-theme="dark"] nav.navbar :is(.navbar__search, [class*="searchbarContainer_"], [class*="searchBarContainer_"])::before {
+html[data-theme="dark"]
+  nav.navbar
+  :is(
+    .navbar__search,
+    [class*="searchbarContainer_"],
+    [class*="searchBarContainer_"]
+  )::before {
   content: "";
   position: absolute;
   left: 8px;
@@ -346,7 +376,9 @@ html[data-theme="dark"] nav.navbar :is(.navbar__search, [class*="searchbarContai
   pointer-events: none;
   background-color: var(--c-text);
 }
-html[data-theme="dark"] nav.navbar :is(input.navbar__search-input, input[class*="searchInput_"]) {
+html[data-theme="dark"]
+  nav.navbar
+  :is(input.navbar__search-input, input[class*="searchInput_"]) {
   flex: 1;
   min-width: 0;
   padding-left: 22px;
@@ -357,11 +389,16 @@ html[data-theme="dark"] nav.navbar :is(input.navbar__search-input, input[class*=
   outline: none;
   font-size: 14px;
 }
-html[data-theme="dark"] nav.navbar :is(input.navbar__search-input, input[class*="searchInput_"])::placeholder {
+html[data-theme="dark"]
+  nav.navbar
+  :is(input.navbar__search-input, input[class*="searchInput_"])::placeholder {
   color: rgba(255, 255, 255, 0.65);
   opacity: 1;
 }
-html[data-theme="dark"] nav.navbar .navbar__items--right [class*="navbarSearchContainer"] {
+html[data-theme="dark"]
+  nav.navbar
+  .navbar__items--right
+  [class*="navbarSearchContainer"] {
   max-width: none !important;
 }
 html[data-theme="dark"] nav.navbar :is([class*="searchHintContainer_"]) {
@@ -380,7 +417,9 @@ html[data-theme="dark"] nav.navbar :is([class*="searchHintContainer_"]) {
 html[data-theme="dark"] nav.navbar :is([class*="searchHintContainer_"]) > * {
   display: none !important;
 }
-html[data-theme="dark"] nav.navbar :is([class*="searchHintContainer_"])::before {
+html[data-theme="dark"]
+  nav.navbar
+  :is([class*="searchHintContainer_"])::before {
   content: "";
   display: block;
   width: 100%;
@@ -388,7 +427,13 @@ html[data-theme="dark"] nav.navbar :is([class*="searchHintContainer_"])::before 
   background: url("/img/icons/cmd-k.svg") center/contain no-repeat;
 }
 
-nav.navbar .navbar__items--right :is(.navbar__search, [class*="searchbarContainer_"], [class*="searchBarContainer_"]) {
+nav.navbar
+  .navbar__items--right
+  :is(
+    .navbar__search,
+    [class*="searchbarContainer_"],
+    [class*="searchBarContainer_"]
+  ) {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: flex-start;
@@ -397,7 +442,9 @@ nav.navbar .navbar__items--right :is(.navbar__search, [class*="searchbarContaine
   box-sizing: border-box !important;
   align-self: center !important;
 }
-nav.navbar .navbar__items--right :is(input.navbar__search-input, input[class*="searchInput_"]) {
+nav.navbar
+  .navbar__items--right
+  :is(input.navbar__search-input, input[class*="searchInput_"]) {
   height: 100% !important;
   padding-block: 0 !important;
   line-height: normal !important;
@@ -406,7 +453,12 @@ nav.navbar .navbar__items--right :is(input.navbar__search-input, input[class*="s
 nav.navbar .navbar__items--right [class*="navbarSearchContainer"] {
   max-width: none !important;
 }
-nav.navbar :is(.navbar__search, [class*="searchbarContainer_"], [class*="searchBarContainer_"]) {
+nav.navbar
+  :is(
+    .navbar__search,
+    [class*="searchbarContainer_"],
+    [class*="searchBarContainer_"]
+  ) {
   position: relative !important;
   min-width: 0 !important;
   overflow: visible !important;
@@ -417,7 +469,12 @@ nav.navbar [class*="searchBar_"] {
   max-width: 100% !important;
   overflow: visible !important;
 }
-nav.navbar :is([class*="searchBar_"] > input, input.navbar__search-input, input[class*="searchInput_"]) {
+nav.navbar
+  :is(
+    [class*="searchBar_"] > input,
+    input.navbar__search-input,
+    input[class*="searchInput_"]
+  ) {
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
