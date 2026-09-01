@@ -25,7 +25,7 @@
     "@open-resource-discovery/overlay-editor": "file:..",
     "@open-resource-discovery/ui-components": "^0.1.6",
     "lucide-react": "^1.22.0",
-    "monaco-editor": "^0.53.0",
+    "monaco-editor": "^0.56.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
