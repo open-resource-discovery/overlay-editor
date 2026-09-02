@@ -3,6 +3,7 @@ import { Badge, Button } from "@open-resource-discovery/ui-components";
 import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
 import type { OverlayPatch } from "../types";
 import { PatchCard } from "./PatchCard";
+import { PatchBoundary } from "./PatchBoundary";
 
 type Props = { patches: OverlayPatch[] };
 
@@ -22,12 +23,13 @@ export function PatchList({ patches }: Props) {
       ) : (
         <div className="overlay-patch-list" key={String(allExpanded)}>
           {patches.map((patch, index) => (
-            <PatchCard
-              key={index}
-              patch={patch}
-              index={index}
-              defaultOpen={allExpanded}
-            />
+            <PatchBoundary key={index} index={index} resetKey={patch}>
+              <PatchCard
+                patch={patch}
+                index={index}
+                defaultOpen={allExpanded}
+              />
+            </PatchBoundary>
           ))}
         </div>
       )}
