@@ -2,13 +2,17 @@ import { Badge, CodeBlock } from "@open-resource-discovery/ui-components";
 import { toYaml } from "../util/serialize";
 import type { OverlayAction, OverlayPatch } from "../types";
 
-const PATCH_DATA_PRESENTATION: Record<
-  OverlayAction,
-  { label: string; filename: string }
-> = {
+type PatchPresentation = { label: string; filename: string };
+
+const PATCH_DATA_PRESENTATION: Record<OverlayAction, PatchPresentation> = {
   update: { label: "Replacement value", filename: "replacement.yaml" },
   merge: { label: "Merge payload", filename: "merge-payload.yaml" },
   remove: { label: "Removal mask", filename: "removal-mask.yaml" },
+};
+
+const FALLBACK_PRESENTATION: PatchPresentation = {
+  label: "Patch data",
+  filename: "patch-data.yaml",
 };
 
 type Props = { patch: OverlayPatch };
@@ -26,10 +30,23 @@ export function PatchData({ patch }: Props) {
 
   if (data === undefined) return null;
 
-  const { label, filename } = PATCH_DATA_PRESENTATION[action];
+  // `action` is typed as `OverlayAction`, but the overlay document is parsed
+  // from untrusted JSON/YAML, so at runtime it can hold any value. Resolve the
+  // presentation defensively and fall back instead of crashing on an unknown
+  // action.
+  const knownPresentation = (
+    PATCH_DATA_PRESENTATION as Record<string, PatchPresentation | undefined>
+  )[action];
+  const { label, filename } = knownPresentation ?? FALLBACK_PRESENTATION;
 
   return (
     <section className="overlay-field">
+      {knownPresentation === undefined ? (
+        <div className="overlay-callout overlay-callout-destructive">
+          Unrecognized patch action <code>{String(action)}</code>. Showing the
+          raw payload below.
+        </div>
+      ) : null}
       <header className="overlay-field-header">
         <h4 className="overlay-field-label">{label}</h4>
         <Badge
@@ -37,7 +54,7 @@ export function PatchData({ patch }: Props) {
           size="sm"
           className="uppercase"
         >
-          {action}
+          {String(action)}
         </Badge>
       </header>
       <CodeBlock

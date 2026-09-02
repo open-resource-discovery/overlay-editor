@@ -83,7 +83,8 @@ function entryMatchesQuery(entry: Entry, normalizedQuery: string): boolean {
   return (
     entry.primary.toLowerCase().includes(normalizedQuery) ||
     entry.secondary?.toLowerCase().includes(normalizedQuery) === true ||
-    entry.action?.includes(normalizedQuery) === true
+    (entry.action !== undefined &&
+      String(entry.action).includes(normalizedQuery))
   );
 }
 
@@ -267,7 +268,7 @@ function SidebarLink({
                 `overlay-sidebar-method-${actionVariant(entry.action)}`,
               )}
             >
-              {entry.action.toUpperCase()}
+              {String(entry.action).toUpperCase()}
             </span>
             <span className="overlay-sidebar-item-label">
               {highlightMatch(entry.primary, query)}

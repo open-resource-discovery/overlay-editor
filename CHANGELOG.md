@@ -19,6 +19,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Fixed
 
+- Fixed a crash when a patch declares an unrecognized `action` (or a non-string action) in the overlay document; the affected patch now shows a warning callout and still renders its payload instead of blanking the whole overlay view.
+- Isolated render failures to a single patch via a per-patch error boundary, so one malformed patch degrades to a fallback message while the rest of the overlay renders normally.
 - Updated ORD Overlay spec link on the home page hero to point directly to the overlay interface spec (`/spec-v1/interfaces/OrdOverlay`).
 - Fixed the navbar "Home" item staying highlighted on the Documentation and Playground pages; it is now active only on the home page.
 - Silenced the spurious "ResizeObserver loop completed with undelivered notifications" dev-server error overlay that appeared when navigating to or from the Playground — a benign browser notice, not a real error, so all other runtime errors still surface.

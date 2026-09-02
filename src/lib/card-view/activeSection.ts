@@ -47,7 +47,7 @@ export function sectionLabel(
     case "patch": {
       const patch = patches[section.index];
       return patch
-        ? `${patch.action.toUpperCase()} · patch #${section.index + 1}`
+        ? `${String(patch.action).toUpperCase()} · patch #${section.index + 1}`
         : `Patch #${section.index + 1}`;
     }
   }
