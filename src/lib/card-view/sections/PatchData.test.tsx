@@ -49,6 +49,24 @@ describe("PatchData", () => {
     expect(screen.getByText(/Unrecognized patch action/i)).toBeInTheDocument();
   });
 
+  it.each([
+    ["an inherited Object.prototype key", "toString"],
+    ["a prototype-pollution key", "__proto__"],
+    ["a non-string that coerces to a known key", ["update"]],
+    ["a plain object", {}],
+  ])("treats %s as an unrecognized action", (_desc, action) => {
+    const patch = {
+      action,
+      selector: { root: true },
+      data: { title: "x" },
+    } as unknown as OverlayPatch;
+
+    expect(() => render(<PatchData patch={patch} />)).not.toThrow();
+    expect(screen.getByText(/Unrecognized patch action/i)).toBeInTheDocument();
+    // Fallback presentation label is used, never a blank/broken one.
+    expect(screen.getByText("Patch data")).toBeInTheDocument();
+  });
+
   it("renders the removal callout for a remove patch without data", () => {
     const patch: OverlayPatch = { action: "remove", selector: { root: true } };
     render(<PatchData patch={patch} />);

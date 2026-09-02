@@ -23,7 +23,7 @@ export function PatchList({ patches }: Props) {
       ) : (
         <div className="overlay-patch-list" key={String(allExpanded)}>
           {patches.map((patch, index) => (
-            <PatchBoundary key={index} resetKey={patch}>
+            <PatchBoundary key={index} index={index} resetKey={patch}>
               <PatchCard
                 patch={patch}
                 index={index}

@@ -31,17 +31,24 @@ export function PatchData({ patch }: Props) {
   if (data === undefined) return null;
 
   // `action` is typed as `OverlayAction`, but the overlay document is parsed
-  // from untrusted JSON/YAML, so at runtime it can hold any value. Resolve the
-  // presentation defensively and fall back instead of crashing on an unknown
-  // action.
-  const knownPresentation = (
-    PATCH_DATA_PRESENTATION as Record<string, PatchPresentation | undefined>
-  )[action];
-  const { label, filename } = knownPresentation ?? FALLBACK_PRESENTATION;
+  // from untrusted JSON/YAML, so at runtime it can hold any value. Only treat
+  // it as recognized when it is a string that is an *own* key of the map. This
+  // rejects non-strings (e.g. `["update"]`, which would otherwise coerce to
+  // "update") and inherited properties (e.g. `"toString"`, `"__proto__"`),
+  // then falls back instead of crashing.
+  const rawAction: unknown = action;
+  const isKnownAction =
+    typeof rawAction === "string" &&
+    Object.prototype.hasOwnProperty.call(PATCH_DATA_PRESENTATION, rawAction);
+  const { label, filename } = isKnownAction
+    ? (PATCH_DATA_PRESENTATION as Record<string, PatchPresentation>)[
+        rawAction as string
+      ]
+    : FALLBACK_PRESENTATION;
 
   return (
     <section className="overlay-field">
-      {knownPresentation === undefined ? (
+      {!isKnownAction ? (
         <div className="overlay-callout overlay-callout-destructive">
           Unrecognized patch action <code>{String(action)}</code>. Showing the
           raw payload below.

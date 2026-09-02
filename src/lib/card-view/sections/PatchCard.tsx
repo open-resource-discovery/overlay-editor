@@ -33,7 +33,7 @@ export function PatchCard({ patch, index, defaultOpen }: Props) {
               variant={actionVariant(action)}
               className="uppercase tracking-wide"
             >
-              {action}
+              {String(action)}
             </Badge>
           }
         >

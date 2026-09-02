@@ -1,6 +1,9 @@
 import { Component, type ReactNode } from "react";
 
 type Props = {
+  /** Patch position; used to keep the `patch-N` anchor id in the fallback so
+   * sidebar/deep-link navigation still resolves to a failed patch. */
+  index: number;
   /**
    * When this value changes, a previously caught error is cleared and the
    * children are rendered again. Pass something derived from the underlying
@@ -34,7 +37,7 @@ export class PatchBoundary extends Component<Props, State> {
   render(): ReactNode {
     if (this.state.hasError) {
       return (
-        <div className="overlay-patch-anchor">
+        <div id={`patch-${this.props.index}`} className="overlay-patch-anchor">
           <div className="overlay-callout overlay-callout-destructive">
             This patch could not be displayed.
           </div>

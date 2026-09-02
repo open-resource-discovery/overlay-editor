@@ -14,7 +14,7 @@ describe("PatchBoundary", () => {
     const spy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     render(
-      <PatchBoundary resetKey={1}>
+      <PatchBoundary index={0} resetKey={1}>
         <Boom crash />
       </PatchBoundary>,
     );
@@ -26,11 +26,25 @@ describe("PatchBoundary", () => {
     spy.mockRestore();
   });
 
+  it("keeps the patch anchor id in the fallback for deep-link navigation", () => {
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const { container } = render(
+      <PatchBoundary index={3} resetKey={1}>
+        <Boom crash />
+      </PatchBoundary>,
+    );
+
+    expect(container.querySelector("#patch-3")).not.toBeNull();
+
+    spy.mockRestore();
+  });
+
   it("recovers when resetKey changes and the child stops throwing", async () => {
     const spy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const { rerender } = render(
-      <PatchBoundary resetKey={1}>
+      <PatchBoundary index={0} resetKey={1}>
         <Boom crash />
       </PatchBoundary>,
     );
@@ -39,7 +53,7 @@ describe("PatchBoundary", () => {
     ).toBeInTheDocument();
 
     rerender(
-      <PatchBoundary resetKey={2}>
+      <PatchBoundary index={0} resetKey={2}>
         <Boom crash={false} />
       </PatchBoundary>,
     );
@@ -53,7 +67,7 @@ describe("PatchBoundary", () => {
 
   it("renders children unchanged when nothing throws", () => {
     render(
-      <PatchBoundary resetKey={1}>
+      <PatchBoundary index={0} resetKey={1}>
         <Boom crash={false} />
       </PatchBoundary>,
     );
