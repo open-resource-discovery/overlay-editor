@@ -57,4 +57,11 @@ describe("sectionLabel", () => {
     expect(() => sectionLabel(patchAt(0), patches)).not.toThrow();
     expect(sectionLabel(patchAt(0), patches)).toBe("42 · patch #1");
   });
+
+  it("does not throw for a non-coercible object action", () => {
+    const patches = [
+      { action: { toString: null }, selector: { root: true } },
+    ] as unknown as OverlayPatch[];
+    expect(() => sectionLabel(patchAt(0), patches)).not.toThrow();
+  });
 });

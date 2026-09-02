@@ -18,6 +18,7 @@ import {
 } from "../activeSection";
 import { describeSelector } from "../util/describeSelector";
 import { actionVariant } from "../util/badgeVariants";
+import { formatAction } from "../util/formatAction";
 import { scrollToSection } from "../util/scrollToSection";
 import { useScrollSpy } from "../util/useScrollSpy";
 import { useHashSync } from "../util/useHashSync";
@@ -84,7 +85,7 @@ function entryMatchesQuery(entry: Entry, normalizedQuery: string): boolean {
     entry.primary.toLowerCase().includes(normalizedQuery) ||
     entry.secondary?.toLowerCase().includes(normalizedQuery) === true ||
     (entry.action !== undefined &&
-      String(entry.action).includes(normalizedQuery))
+      formatAction(entry.action).includes(normalizedQuery))
   );
 }
 
@@ -268,7 +269,7 @@ function SidebarLink({
                 `overlay-sidebar-method-${actionVariant(entry.action)}`,
               )}
             >
-              {String(entry.action).toUpperCase()}
+              {formatAction(entry.action).toUpperCase()}
             </span>
             <span className="overlay-sidebar-item-label">
               {highlightMatch(entry.primary, query)}

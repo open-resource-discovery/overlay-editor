@@ -1,5 +1,6 @@
 import { Badge, CodeBlock } from "@open-resource-discovery/ui-components";
 import { toYaml } from "../util/serialize";
+import { formatAction } from "../util/formatAction";
 import type { OverlayAction, OverlayPatch } from "../types";
 
 type PatchPresentation = { label: string; filename: string };
@@ -50,8 +51,8 @@ export function PatchData({ patch }: Props) {
     <section className="overlay-field">
       {!isKnownAction ? (
         <div className="overlay-callout overlay-callout-destructive">
-          Unrecognized patch action <code>{String(action)}</code>. Showing the
-          raw payload below.
+          Unrecognized patch action <code>{formatAction(action)}</code>. Showing
+          the raw payload below.
         </div>
       ) : null}
       <header className="overlay-field-header">
@@ -61,7 +62,7 @@ export function PatchData({ patch }: Props) {
           size="sm"
           className="uppercase"
         >
-          {String(action)}
+          {formatAction(action)}
         </Badge>
       </header>
       <CodeBlock

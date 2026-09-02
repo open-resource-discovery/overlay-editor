@@ -67,4 +67,26 @@ describe("OverlayApp", () => {
       container.querySelector(".overlay-sidebar-footer-mobile"),
     ).toBeNull();
   });
+
+  it("renders without crashing when a patch action is a non-coercible object", () => {
+    // `{"action":{"toString":null}}` is valid JSON. `String(action)` would
+    // throw "Cannot convert object to primitive value" — and the sidebar/
+    // toolbar render outside the per-patch error boundary, so the whole view
+    // would crash. Regression guard for that path.
+    useOverlayStore
+      .getState()
+      .setRawJson(
+        '{"ordOverlay":"0.1","patches":[{"action":{"toString":null},"selector":{"root":true},"data":{"title":"x"}}]}',
+      );
+
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    let container: HTMLElement | undefined;
+    expect(() => {
+      container = render(<OverlayApp />).container;
+    }).not.toThrow();
+    // The sidebar (rendered outside PatchBoundary) is present, proving the
+    // whole view survived.
+    expect(container?.querySelector(".overlay-root")).not.toBeNull();
+    spy.mockRestore();
+  });
 });

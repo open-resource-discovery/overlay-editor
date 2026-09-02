@@ -1,4 +1,5 @@
 import type { OverlayPatch } from "./types";
+import { formatAction } from "./util/formatAction";
 
 export type ActiveSection =
   { kind: "overview" } | { kind: "target" } | { kind: "patch"; index: number };
@@ -47,7 +48,7 @@ export function sectionLabel(
     case "patch": {
       const patch = patches[section.index];
       return patch
-        ? `${String(patch.action).toUpperCase()} · patch #${section.index + 1}`
+        ? `${formatAction(patch.action).toUpperCase()} · patch #${section.index + 1}`
         : `Patch #${section.index + 1}`;
     }
   }
