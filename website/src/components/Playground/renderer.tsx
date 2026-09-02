@@ -1,11 +1,11 @@
-import React, { lazy, Suspense } from 'react';
-import BrowserOnly from '@docusaurus/BrowserOnly';
+import React, { lazy, Suspense } from "react";
+import BrowserOnly from "@docusaurus/BrowserOnly";
 
 type Props = {
   /** Raw overlay document (JSON or YAML text). */
   content: string;
   /** Current Docusaurus color mode, synced into the library's theme store. */
-  colorMode: 'light' | 'dark';
+  colorMode: "light" | "dark";
 };
 
 // Error boundary that clears its caught error when `resetKey` changes. Unlike a
@@ -40,8 +40,8 @@ class ResettableErrorBoundary extends React.Component<
 // keeps it out of the SSR/SSG graph and keeps the module ESM end-to-end, which
 // also avoids the CJS-interop pitfalls webpack hits with `require()`.
 const LazyCard = lazy(async () => {
-  await import('@open-resource-discovery/overlay-editor/styles');
-  const mod = await import('@open-resource-discovery/overlay-editor');
+  await import("@open-resource-discovery/overlay-editor/styles");
+  const mod = await import("@open-resource-discovery/overlay-editor");
   const { OverlayCardView, useThemeStore } = mod;
 
   function ThemedCard({ content, colorMode }: Props) {

@@ -15,9 +15,9 @@ subpath).
 
 Read-only renderer for an ORD Overlay document.
 
-| Prop      | Type     | Description                                  |
-| --------- | -------- | -------------------------------------------- |
-| `content` | `string` | The overlay document as JSON or YAML text.   |
+| Prop      | Type     | Description                                |
+| --------- | -------- | ------------------------------------------ |
+| `content` | `string` | The overlay document as JSON or YAML text. |
 
 The component parses `content` into the overlay store and renders the hero,
 target card, and patch list.

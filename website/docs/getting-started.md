@@ -20,11 +20,11 @@ Import the component and its stylesheet, then pass an overlay document (JSON or
 YAML text) via the `content` prop:
 
 ```tsx
-import { OverlayCardView } from '@open-resource-discovery/overlay-editor';
-import '@open-resource-discovery/overlay-editor/styles';
+import { OverlayCardView } from "@open-resource-discovery/overlay-editor";
+import "@open-resource-discovery/overlay-editor/styles";
 
 const overlay = JSON.stringify({
-  ordOverlay: '0.1',
+  ordOverlay: "0.1",
   // ...
 });
 
@@ -44,10 +44,10 @@ The component renders under an `.ord-ui` root and follows the shared
 is controlled by the library's theme store:
 
 ```tsx
-import { useThemeStore } from '@open-resource-discovery/overlay-editor';
+import { useThemeStore } from "@open-resource-discovery/overlay-editor";
 
 // Sync the component to your app's color mode:
-useThemeStore.getState().setTheme('dark'); // 'light' | 'dark' | 'system'
+useThemeStore.getState().setTheme("dark"); // 'light' | 'dark' | 'system'
 ```
 
 See the [API Reference](./api.md) for the full exported surface.

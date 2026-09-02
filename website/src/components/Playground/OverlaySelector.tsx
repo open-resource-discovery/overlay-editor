@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
-import { Badge, Card, Input, cn } from '@open-resource-discovery/ui-components';
-import { Search } from 'lucide-react';
-import type { PredefinedOverlay } from '@site/src/lib/predefined-overlays';
+import { useMemo, useState } from "react";
+import { Badge, Card, Input, cn } from "@open-resource-discovery/ui-components";
+import { Search } from "lucide-react";
+import type { PredefinedOverlay } from "@site/src/lib/predefined-overlays";
 
 type Props = {
   overlays: PredefinedOverlay[];
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -51,14 +51,14 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
                   tabIndex={0}
                   onClick={() => onSelect(o)}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
+                    if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
                       onSelect(o);
                     }
                   }}
                   className={cn(
-                    'cursor-pointer transition-colors hover:border-primary/40 hover:bg-accent/30',
-                    selectedId === o.id && 'border-primary/60 bg-accent/40',
+                    "cursor-pointer transition-colors hover:border-primary/40 hover:bg-accent/30",
+                    selectedId === o.id && "border-primary/60 bg-accent/40",
                   )}
                 >
                   <Card.Header className="p-3">
@@ -90,10 +90,10 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
 }
 
 function targetTypeLabel(t: string): string {
-  if (t.startsWith('openapi')) return 'OpenAPI';
-  if (t.startsWith('csn')) return 'CSN';
-  if (t.startsWith('edmx')) return 'EDMX';
-  if (t.startsWith('mcp')) return 'MCP';
-  if (t.startsWith('a2a')) return 'A2A';
+  if (t.startsWith("openapi")) return "OpenAPI";
+  if (t.startsWith("csn")) return "CSN";
+  if (t.startsWith("edmx")) return "EDMX";
+  if (t.startsWith("mcp")) return "MCP";
+  if (t.startsWith("a2a")) return "A2A";
   return t;
 }

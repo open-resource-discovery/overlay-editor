@@ -1,19 +1,19 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useHistory, useLocation } from '@docusaurus/router';
-import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
-import { useColorMode } from '@docusaurus/theme-common';
-import { Button, SplitPane, cn } from '@open-resource-discovery/ui-components';
-import { Loader2 } from 'lucide-react';
-import { JsonEditor } from './JsonEditor';
-import { OverlaySelector } from './OverlaySelector';
-import Renderer from './renderer';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useHistory, useLocation } from "@docusaurus/router";
+import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
+import { useColorMode } from "@docusaurus/theme-common";
+import { Button, SplitPane, cn } from "@open-resource-discovery/ui-components";
+import { Loader2 } from "lucide-react";
+import { JsonEditor } from "./JsonEditor";
+import { OverlaySelector } from "./OverlaySelector";
+import Renderer from "./renderer";
 import {
   loadOverlayBody,
   loadPredefinedOverlays,
   type PredefinedOverlay,
-} from '@site/src/lib/predefined-overlays';
+} from "@site/src/lib/predefined-overlays";
 
-const QUERY_PARAM = 'example';
+const QUERY_PARAM = "example";
 
 // ui-components' `SplitPane.Panel` types `defaultSize`/`minSize`/`maxSize` as
 // bare `number`, but the underlying `react-resizable-panels@4` accepts
@@ -34,7 +34,7 @@ export default function PlaygroundBody() {
   );
 
   const [overlays, setOverlays] = useState<PredefinedOverlay[]>([]);
-  const [content, setContent] = useState<string>('');
+  const [content, setContent] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -103,8 +103,8 @@ export default function PlaygroundBody() {
   return (
     <div
       className={cn(
-        'ord-ui flex h-full min-h-0 flex-1 flex-col bg-background text-foreground',
-        colorMode === 'dark' && 'dark',
+        "ord-ui flex h-full min-h-0 flex-1 flex-col bg-background text-foreground",
+        colorMode === "dark" && "dark",
       )}
     >
       <SplitPane.Root
@@ -113,9 +113,9 @@ export default function PlaygroundBody() {
         className="flex h-full min-h-0 flex-1"
       >
         <SplitPane.Panel
-          defaultSize={pct('22%')}
-          minSize={pct('16%')}
-          maxSize={pct('40%')}
+          defaultSize={pct("22%")}
+          minSize={pct("16%")}
+          maxSize={pct("40%")}
         >
           <OverlaySelector
             overlays={overlays}
@@ -126,10 +126,10 @@ export default function PlaygroundBody() {
 
         <SplitPane.Handle />
 
-        <SplitPane.Panel defaultSize={pct('38%')} minSize={pct('20%')}>
+        <SplitPane.Panel defaultSize={pct("38%")} minSize={pct("20%")}>
           <JsonEditor
             value={content}
-            onChange={(v) => setContent(v ?? '')}
+            onChange={(v) => setContent(v ?? "")}
             language="json"
             height="100%"
           />
@@ -137,7 +137,7 @@ export default function PlaygroundBody() {
 
         <SplitPane.Handle />
 
-        <SplitPane.Panel defaultSize={pct('40%')} minSize={pct('20%')}>
+        <SplitPane.Panel defaultSize={pct("40%")} minSize={pct("20%")}>
           <div className="relative h-full min-h-0 overflow-auto">
             {loading ? (
               <div className="grid h-full place-items-center text-sm text-muted-foreground">

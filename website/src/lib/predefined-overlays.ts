@@ -24,7 +24,7 @@ type WithBaseUrl = (path: string) => string;
 export async function loadPredefinedOverlays(
   withBaseUrl: WithBaseUrl,
 ): Promise<PredefinedOverlay[]> {
-  const url = withBaseUrl('/predefined-overlays.json');
+  const url = withBaseUrl("/predefined-overlays.json");
   const r = await fetch(url);
   if (!r.ok) throw new Error(`failed to fetch ${url}: ${r.status}`);
   return r.json();

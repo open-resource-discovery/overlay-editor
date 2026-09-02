@@ -1,40 +1,47 @@
-import { themes as prismThemes } from 'prism-react-renderer';
-import type { Config } from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+import { themes as prismThemes } from "prism-react-renderer";
+import type { Config } from "@docusaurus/types";
+import type * as Preset from "@docusaurus/preset-classic";
 // The Tailwind v4 PostCSS plugin. Pushed into Docusaurus' PostCSS pipeline
 // below so utility classes used by the chrome are generated at build time.
-import tailwindcss from '@tailwindcss/postcss';
+import tailwindcss from "@tailwindcss/postcss";
+
+const baseUrl = process.env.BASE_URL || "/overlay-editor/";
+
+// The Home item should only be highlighted on the exact root page.
+// activeBaseRegex is matched against location.pathname, which includes baseUrl,
+// so match the baseUrl exactly (with or without a trailing slash).
+const homeActiveRegex = `^${baseUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\/$/, "")}/?$`;
 
 const config: Config = {
-  title: 'ORD Overlay Editor',
-  tagline: 'View and edit ORD Overlay documents',
-  favicon: 'img/favicon.ico',
+  title: "ORD Overlay Editor",
+  tagline: "View and edit ORD Overlay documents",
+  favicon: "img/favicon.ico",
   storage: { namespace: true },
 
-  url: 'https://open-resource-discovery.github.io',
+  url: "https://open-resource-discovery.github.io",
   // Overridable for PR previews; trailing slash is required by Docusaurus.
-  baseUrl: process.env.BASE_URL || '/overlay-editor/',
-  organizationName: 'open-resource-discovery',
-  projectName: 'overlay-editor',
+  baseUrl,
+  organizationName: "open-resource-discovery",
+  projectName: "overlay-editor",
 
-  onBrokenLinks: 'throw',
-  markdown: { hooks: { onBrokenMarkdownLinks: 'warn' } },
+  onBrokenLinks: "throw",
+  markdown: { hooks: { onBrokenMarkdownLinks: "warn" } },
 
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
 
   presets: [
     [
-      'classic',
+      "classic",
       {
         docs: {
-          sidebarPath: './sidebars.ts',
+          sidebarPath: "./sidebars.ts",
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: "./src/css/custom.css",
         },
       } satisfies Preset.Options,
     ],
@@ -42,7 +49,10 @@ const config: Config = {
 
   // ui-components' stylesheet is a JS-side-effect import, so it lives in a
   // client module rather than `theme.customCss` (which only takes CSS files).
-  clientModules: ['./clientModules/ordUi.ts'],
+  clientModules: [
+    "./clientModules/ordUi.ts",
+    "./clientModules/suppressResizeObserverError.ts",
+  ],
 
   plugins: [
     // Wire Tailwind v4 into Docusaurus' PostCSS pipeline. Utilities are imported
@@ -50,7 +60,7 @@ const config: Config = {
     // selectors without depending on cascade-layer support.
     function tailwindPlugin() {
       return {
-        name: 'tailwind-plugin',
+        name: "tailwind-plugin",
         configurePostCss(postcssOptions) {
           postcssOptions.plugins.push(tailwindcss);
           return postcssOptions;
@@ -59,25 +69,33 @@ const config: Config = {
     },
   ],
 
+  themes: ["@easyops-cn/docusaurus-search-local"],
+
   themeConfig: {
     colorMode: {
       respectPrefersColorScheme: false,
     },
     navbar: {
-      title: 'ORD Overlay Editor',
+      title: "ORD Overlay Editor",
       items: [
-        { to: '/', label: 'Home', position: 'left', activeBasePath: '/' },
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Documentation',
+          to: "/",
+          label: "Home",
+          position: "left",
+          activeBaseRegex: homeActiveRegex,
         },
-        { to: '/playground', label: 'Playground', position: 'left' },
         {
-          href: 'https://github.com/open-resource-discovery/overlay-editor',
-          label: 'GitHub',
-          position: 'right',
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "left",
+          label: "Documentation",
+        },
+        { to: "/playground", label: "Playground", position: "left" },
+        {
+          href: "https://github.com/open-resource-discovery/overlay-editor",
+          label: "GitHub",
+          position: "right",
+          className: "header-github-pill",
         },
       ],
     },
@@ -89,8 +107,8 @@ const config: Config = {
       ? {
           announcementBar: {
             content: `<b>This is a preview build of the website for <a href="https://github.com/open-resource-discovery/overlay-editor/pull/${process.env.PR_PREVIEW_NUMBER}" target="_blank">PR #${process.env.PR_PREVIEW_NUMBER}</a></b>`,
-            backgroundColor: '#0078d4',
-            textColor: '#ffffff',
+            backgroundColor: "#0078d4",
+            textColor: "#ffffff",
             isCloseable: false,
           },
         }

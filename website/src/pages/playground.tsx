@@ -1,14 +1,14 @@
-import React, { lazy, Suspense } from 'react';
-import Layout from '@theme/Layout';
-import BrowserOnly from '@docusaurus/BrowserOnly';
-import styles from './playground.module.css';
+import React, { lazy, Suspense } from "react";
+import Layout from "@theme/Layout";
+import BrowserOnly from "@docusaurus/BrowserOnly";
+import styles from "./playground.module.css";
 
 // Load the playground body via a dynamic import so its client-only dependency
 // graph (Monaco, ui-components' SplitPane, the lazily-imported card view) is
 // never *evaluated* during server-side static generation — a static import
 // would be, even though `<BrowserOnly>` defers rendering.
 const PlaygroundBody = lazy(
-  () => import('@site/src/components/Playground/PlaygroundBody'),
+  () => import("@site/src/components/Playground/PlaygroundBody"),
 );
 
 export default function PlaygroundPage(): React.JSX.Element {
