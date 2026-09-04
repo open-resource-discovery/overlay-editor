@@ -43,7 +43,7 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
             No examples match &ldquo;{query}&rdquo;.
           </p>
         ) : (
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-2 p-0">
             {filtered.map((o) => (
               <li key={o.id}>
                 <Card
