@@ -7,9 +7,9 @@
   },
   "scripts": {
     "docusaurus": "docusaurus",
-    "prestart": "npm --prefix .. run build",
+    "prestart": "npm --prefix .. run prepare:website-assets",
     "start": "docusaurus start",
-    "prebuild": "npm --prefix .. run build",
+    "prebuild": "npm --prefix .. run prepare:website-assets",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "serve": "docusaurus serve",
