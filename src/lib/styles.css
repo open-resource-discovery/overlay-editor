@@ -1,3 +1,14 @@
+/* Tailwind entry for overlay-editor's OWN utility classes (e.g. HeroBlock's
+ * `pb-2`). overlay is not otherwise a Tailwind project, so without this its
+ * components could only use utilities that ui-components happened to generate.
+ * Preflight is intentionally skipped (we ship a scoped `.overlay-root` reset
+ * below); `@source` scans the library source so used utilities get generated.
+ * Mirrors @open-resource-discovery/a2a-editor's setup. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css";
+@source "./";
+
 /* ============================================================================
  * Overlay-specific tokens only.
  * Everything else (--ord-background / -foreground / -muted / -border / -card /
@@ -10,6 +21,145 @@
     --overlay-sidebar-footer-height: 35px;
     height: 100%;
     min-height: 0;
+  }
+
+  /*
+   * Scoped preflight — Tailwind v4's element resets applied only inside
+   * .overlay-root so the host page (e.g. Docusaurus/Infima) is never affected.
+   *
+   * Element selectors use :where() to keep specificity at (0,1,0) — matching
+   * Tailwind utilities. Since ui-components' utilities come later in source
+   * order (utilities layer > base layer), they win. When @layer wrappers are
+   * stripped for the standalone bundle, this ordering is preserved so the
+   * preflight beats unlayered host styles without beating utilities.
+   *
+   * Mirrors @open-resource-discovery/a2a-editor's `.a2a-root` scoped preflight.
+   */
+  .overlay-root :where(*),
+  .overlay-root :where(::after),
+  .overlay-root :where(::before),
+  .overlay-root :where(::backdrop) {
+    box-sizing: border-box;
+    /* Use longhands, NOT `border: 0 solid` — the shorthand would reset
+       border-color to `currentcolor`, clobbering ui-components'
+       `.ord-ui :where(*){border-color:var(--ord-border)}` and turning card
+       borders black. */
+    border-width: 0;
+    border-style: solid;
+    margin: 0;
+    padding: 0;
+  }
+
+  .overlay-root :where(hr) {
+    height: 0;
+    color: inherit;
+    border-top-width: 1px;
+  }
+
+  .overlay-root :where(abbr[title]) {
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
+  }
+
+  .overlay-root :where(h1, h2, h3, h4, h5, h6) {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  .overlay-root :where(a) {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+
+  .overlay-root :where(b, strong) {
+    font-weight: bolder;
+  }
+
+  .overlay-root :where(code, kbd, samp, pre) {
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    font-size: inherit;
+  }
+
+  .overlay-root :where(small) {
+    font-size: 80%;
+  }
+
+  .overlay-root :where(sub, sup) {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  .overlay-root :where(sub) {
+    bottom: -0.25em;
+  }
+
+  .overlay-root :where(sup) {
+    top: -0.5em;
+  }
+
+  .overlay-root :where(table) {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+
+  .overlay-root :where(summary) {
+    display: list-item;
+  }
+
+  .overlay-root :where(ol, ul, menu) {
+    list-style: none;
+  }
+
+  .overlay-root :where(img, svg, video, canvas, audio, iframe, embed, object) {
+    display: block;
+    vertical-align: middle;
+  }
+
+  .overlay-root :where(img, video) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .overlay-root :where(button, input, select, optgroup, textarea) {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+
+  .overlay-root :where(textarea) {
+    resize: vertical;
+  }
+
+  .overlay-root :where(::placeholder) {
+    opacity: 1;
+  }
+
+  @supports (not (-webkit-appearance: -apple-pay-button)) or
+    (contain-intrinsic-size: 1px) {
+    .overlay-root :where(::placeholder) {
+      color: color-mix(in oklab, currentcolor 50%, transparent);
+    }
+  }
+
+  .overlay-root :where(button),
+  .overlay-root
+    :where(input[type="button"], input[type="reset"], input[type="submit"]) {
+    appearance: button;
+  }
+
+  .overlay-root :where([hidden]:not([hidden="until-found"])) {
+    display: none !important;
   }
 }
 

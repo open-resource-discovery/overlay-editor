@@ -22,8 +22,8 @@ export function TargetCard({ target }: Props) {
         </div>
       </header>
       <Card className="overlay-target-card">
-        <Card.Header>
-          <Card.Description>
+        <Card.Header className="pb-2">
+          <Card.Description className="m-0">
             Identifies the resource or definition file this overlay patches.
           </Card.Description>
         </Card.Header>

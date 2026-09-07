@@ -1,5 +1,6 @@
-import React, { lazy, Suspense } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BrowserOnly from "@docusaurus/BrowserOnly";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 type Props = {
   /** Raw overlay document (JSON or YAML text). */
@@ -8,76 +9,163 @@ type Props = {
   colorMode: "light" | "dark";
 };
 
-// Error boundary that clears its caught error when `resetKey` changes. Unlike a
-// plain `key`, this does NOT remount the (healthy) child on every re-render —
-// it only re-renders children again after an error once the input that caused
-// it has changed. So a render failure recovers when the user selects another
-// overlay or edits the current one, without a full remount per keystroke.
-class ResettableErrorBoundary extends React.Component<
-  { resetKey: unknown; fallback: React.ReactNode; children: React.ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
+// Minimal shape of the global exposed by the standalone bundle
+// (src/lib/standalone.ts → window.OverlayPlayground).
+type OverlayInstance = {
+  setTheme?: (theme: "light" | "dark") => void;
+  update?: (content: string) => void;
+  destroy?: () => void;
+};
+type OverlayPlaygroundGlobal = {
+  init: (opts: {
+    el: HTMLElement;
+    content?: string;
+    theme?: "light" | "dark";
+  }) => OverlayInstance;
+};
 
-  static getDerivedStateFromError(): { hasError: true } {
-    return { hasError: true };
-  }
-
-  componentDidUpdate(prevProps: { resetKey: unknown }): void {
-    if (this.state.hasError && prevProps.resetKey !== this.props.resetKey) {
-      this.setState({ hasError: false });
-    }
-  }
-
-  render(): React.ReactNode {
-    return this.state.hasError ? this.props.fallback : this.props.children;
-  }
+function getOverlayGlobal(): OverlayPlaygroundGlobal | undefined {
+  return (window as unknown as { OverlayPlayground?: OverlayPlaygroundGlobal })
+    .OverlayPlayground;
 }
 
-// `@open-resource-discovery/overlay-editor` is ESM-only, renders under
-// `"use client"`, and injects its layout `<style>` into `document.head` at
-// runtime (via `OverlayCardView`). A dynamic `import()` behind `React.lazy`
-// keeps it out of the SSR/SSG graph and keeps the module ESM end-to-end, which
-// also avoids the CJS-interop pitfalls webpack hits with `require()`.
-const LazyCard = lazy(async () => {
-  await import("@open-resource-discovery/overlay-editor/styles");
-  const mod = await import("@open-resource-discovery/overlay-editor");
-  const { OverlayCardView, useThemeStore } = mod;
+// Why injection instead of `import()`:
+//
+// `@open-resource-discovery/overlay-editor` and its `ui-components` dependency
+// ship Tailwind v4 CSS whose resets/utilities live in `@layer`. Docusaurus/
+// Infima's global styles are UN-layered, so they beat every layered rule
+// regardless of specificity — paragraph/heading margins and sizes bleed into
+// the cards. The standalone bundle is post-processed (see
+// vite.standalone.config.ts) to strip `@layer` wrappers and scope a preflight
+// to `.overlay-root`, so it wins over Infima. Loading it as a static
+// `<link>`/`<script>` (served from website/static/standalone) keeps that
+// stripped CSS out of webpack's layering, which is what makes the fix hold.
+function StandaloneCard({
+  content,
+  colorMode,
+  cssUrl,
+  jsUrl,
+}: Props & { cssUrl: string; jsUrl: string }): React.JSX.Element {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const instanceRef = useRef<OverlayInstance | null>(null);
+  const contentRef = useRef(content);
+  const themeRef = useRef(colorMode);
+  contentRef.current = content;
+  themeRef.current = colorMode;
 
-  function ThemedCard({ content, colorMode }: Props) {
-    // Push Docusaurus' color mode into the library's own theme store so the
-    // card's internal `.ord-ui.dark` matches the surrounding chrome.
-    React.useEffect(() => {
-      useThemeStore.getState().setTheme(colorMode);
-    }, [colorMode]);
+  const [error, setError] = useState<string | null>(null);
 
-    return <OverlayCardView content={content} />;
+  // Load the standalone assets and initialise once.
+  useEffect(() => {
+    let mounted = true;
+
+    const loadAndInit = async (): Promise<void> => {
+      try {
+        if (!document.querySelector(`link[href="${cssUrl}"]`)) {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = cssUrl;
+          document.head.appendChild(link);
+        }
+
+        if (!getOverlayGlobal()) {
+          await new Promise<void>((resolve, reject) => {
+            const existing = document.querySelector(`script[src="${jsUrl}"]`);
+            if (existing) {
+              const timer = setInterval(() => {
+                if (getOverlayGlobal()) {
+                  clearInterval(timer);
+                  resolve();
+                }
+              }, 50);
+              setTimeout(() => {
+                clearInterval(timer);
+                reject(new Error("Timeout waiting for OverlayPlayground"));
+              }, 10000);
+              return;
+            }
+            const script = document.createElement("script");
+            script.src = jsUrl;
+            script.onload = () => setTimeout(resolve, 50);
+            script.onerror = () =>
+              reject(new Error("Failed to load OverlayPlayground script"));
+            document.body.appendChild(script);
+          });
+        }
+
+        if (!mounted || !containerRef.current) return;
+
+        const overlay = getOverlayGlobal();
+        if (!overlay) throw new Error("OverlayPlayground global not available");
+
+        instanceRef.current = overlay.init({
+          el: containerRef.current,
+          content: contentRef.current,
+          theme: themeRef.current,
+        });
+      } catch (err) {
+        if (mounted)
+          setError(
+            err instanceof Error
+              ? err.message
+              : "Failed to load overlay renderer",
+          );
+      }
+    };
+
+    void loadAndInit();
+
+    return () => {
+      mounted = false;
+      try {
+        instanceRef.current?.destroy?.();
+      } catch {
+        // ignore teardown errors
+      }
+      instanceRef.current = null;
+    };
+  }, [cssUrl, jsUrl]);
+
+  // Push new document content into the mounted instance.
+  useEffect(() => {
+    instanceRef.current?.update?.(content);
+  }, [content]);
+
+  // Sync Docusaurus color mode into the card's theme.
+  useEffect(() => {
+    instanceRef.current?.setTheme?.(colorMode);
+  }, [colorMode]);
+
+  if (error) {
+    return (
+      <div className="grid h-full place-items-center p-6 text-center text-sm text-red-500">
+        Could not render this overlay.
+      </div>
+    );
   }
 
-  return { default: ThemedCard };
-});
+  return <div ref={containerRef} style={{ height: "100%" }} />;
+}
 
 export default function Renderer({
   content,
   colorMode,
 }: Props): React.JSX.Element | null {
+  const cssUrl = useBaseUrl("/standalone/overlay-cardview.css");
+  const jsUrl = useBaseUrl("/standalone/overlay-cardview.js");
+
   if (!content) return null;
+
   return (
-    <ResettableErrorBoundary
-      resetKey={content}
-      fallback={
-        <div className="grid h-full place-items-center p-6 text-center text-sm text-destructive">
-          Could not render this overlay.
-        </div>
-      }
-    >
-      <BrowserOnly>
-        {() => (
-          <Suspense fallback={null}>
-            <LazyCard content={content} colorMode={colorMode} />
-          </Suspense>
-        )}
-      </BrowserOnly>
-    </ResettableErrorBoundary>
+    <BrowserOnly>
+      {() => (
+        <StandaloneCard
+          content={content}
+          colorMode={colorMode}
+          cssUrl={cssUrl}
+          jsUrl={jsUrl}
+        />
+      )}
+    </BrowserOnly>
   );
 }

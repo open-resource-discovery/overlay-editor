@@ -142,6 +142,48 @@
   --shadow-md: 0 4px 12px #0009;
 }
 
+/* ============================================================================
+ * Playground (.ord-ui) — neutralize Infima's element-level bleed.
+ *
+ * Infima ships UNLAYERED global rules (p{margin}, h1..h6{margin,font-size,...},
+ * ul/ol{...}) that otherwise win over the layered ui-components/Tailwind styles
+ * inside the playground. These resets are:
+ *   - scoped to `.ord-ui`, so home/docs pages (no `.ord-ui`) keep Infima intact;
+ *   - kept at specificity (0,0,1) via `:where(.ord-ui) <el>`, so they beat
+ *     Infima's element selectors by source order (this file loads after Infima)
+ *     while ANY Tailwind utility class (0,1,0) still overrides them.
+ * Border uses longhands (never the `border` shorthand, which would reset
+ * border-color to currentcolor and blacken ui-components borders).
+ * ==========================================================================*/
+:where(.ord-ui) p,
+:where(.ord-ui) h1,
+:where(.ord-ui) h2,
+:where(.ord-ui) h3,
+:where(.ord-ui) h4,
+:where(.ord-ui) h5,
+:where(.ord-ui) h6,
+:where(.ord-ui) ul,
+:where(.ord-ui) ol,
+:where(.ord-ui) dl,
+:where(.ord-ui) dd,
+:where(.ord-ui) figure,
+:where(.ord-ui) blockquote,
+:where(.ord-ui) pre,
+:where(.ord-ui) hr {
+  margin: inherit;
+}
+:where(.ord-ui) h1,
+:where(.ord-ui) h2,
+:where(.ord-ui) h3,
+:where(.ord-ui) h4,
+:where(.ord-ui) h5,
+:where(.ord-ui) h6 {
+  /* Neutralize Infima's oversized heading font-size (kept at (0,0,1) so any
+     Tailwind size utility still wins). font-weight/line-height are left to
+     Infima/inheritance so titles stay bold. */
+  font-size: inherit;
+}
+
 /* Monaco decorations for lines affected by the active patch. */
 .target-highlight-line {
   background: rgba(250, 204, 21, 0.18);
@@ -179,6 +221,17 @@
 .navbar__item {
   display: flex;
   align-items: baseline;
+}
+
+main[class*="docMainContainer"] ul[class*="breadcrumbs"] {
+  display: inline-flex;
+  align-items: center;
+}
+main[class*="docMainContainer"]
+  ul[class*="breadcrumbs"]
+  li[class*="breadcrumbs__item"] {
+  display: inline-flex;
+  align-items: center;
 }
 
 /* ===== Navbar: shared tokens ===== */

@@ -1,5 +1,8 @@
 # Lib build output
 /dist
+# Standalone bundle output + its copy into the Docusaurus static dir
+/dist-standalone
+/website/static/standalone
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies

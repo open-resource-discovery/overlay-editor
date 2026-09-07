@@ -55,13 +55,12 @@ const config: Config = {
   ],
 
   plugins: [
-    // Wire Tailwind v4 into Docusaurus' PostCSS pipeline. Utilities are imported
-    // unlayered in custom.css, so class specificity wins over Infima's element
-    // selectors without depending on cascade-layer support.
+    // Wire Tailwind v4 into Docusaurus' PostCSS pipeline so the chrome's utility
+    // classes are generated at build time.
     function tailwindPlugin() {
       return {
         name: "tailwind-plugin",
-        configurePostCss(postcssOptions) {
+        configurePostCss(postcssOptions: { plugins: unknown[] }) {
           postcssOptions.plugins.push(tailwindcss);
           return postcssOptions;
         },

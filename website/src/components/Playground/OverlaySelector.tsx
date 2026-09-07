@@ -75,7 +75,7 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
                     </div>
                   </Card.Header>
                   <Card.Content className="px-3 pb-3 pt-0">
-                    <p className="line-clamp-2 text-xs text-muted-foreground">
+                    <p className="line-clamp-2 text-xs text-muted-foreground mb-0">
                       {o.description}
                     </p>
                   </Card.Content>
