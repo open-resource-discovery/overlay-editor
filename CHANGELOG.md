@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Styled the navbar GitHub button and search bar to match the `a2a-editor` site (GitHub SVG icon pill, custom search box with icon and keyboard hint).
 - Added a self-contained standalone bundle for embedding the overlay card view in host pages, with styles scoped so they resist host-framework (e.g. Docusaurus/Infima) CSS bleed without leaking out.
 - Added a Tailwind build for the library so utility classes used by the overlay's own card-view components (e.g. `pb-2`) are generated and applied, not just those inherited from `ui-components`.
+- ORD Overlay logo
 
 ### Changed
 

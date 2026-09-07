@@ -76,6 +76,10 @@ const config: Config = {
     },
     navbar: {
       title: "ORD Overlay Editor",
+      logo: {
+        alt: "ORD Overlay Logo",
+        src: "img/overlay-logo.svg",
+      },
       items: [
         {
           to: "/",

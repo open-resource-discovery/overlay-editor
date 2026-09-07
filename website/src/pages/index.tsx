@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
-import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
+import useBaseUrl, { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { Layers, ArrowRight } from "lucide-react";
 import {
   loadPredefinedOverlays,
   type PredefinedOverlay,
 } from "@site/src/lib/predefined-overlays";
+import styles from "./index.module.css";
 
 function targetLabel(t: string): string {
   if (t.startsWith("openapi")) return "OpenAPI";
@@ -32,14 +33,13 @@ function HomeContent(): React.JSX.Element {
       .then(setOverlays)
       .catch(() => setOverlays([]));
   }, [withBaseUrl]);
+  const heroLogoSrc = useBaseUrl("img/overlay-logo.svg");
 
   return (
     <div>
       {/* Hero */}
       <section className="flex flex-col items-center gap-6 px-6 py-16 text-center sm:py-24">
-        <span className="grid h-16 w-16 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
-          <Layers className="h-8 w-8" />
-        </span>
+        <img src={heroLogoSrc} className={styles.heroLogo} />
         <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
           ORD Overlay Editor
         </h1>
