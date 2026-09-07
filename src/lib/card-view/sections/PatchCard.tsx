@@ -6,6 +6,7 @@ import {
 import type { OverlayPatch } from "../types";
 import { describeSelector } from "../util/describeSelector";
 import { actionVariant } from "../util/badgeVariants";
+import { formatAction } from "../util/formatAction";
 import { SelectorChip } from "./SelectorChip";
 import { PatchData } from "./PatchData";
 
@@ -33,7 +34,7 @@ export function PatchCard({ patch, index, defaultOpen }: Props) {
               variant={actionVariant(action)}
               className="uppercase tracking-wide"
             >
-              {action}
+              {formatAction(action)}
             </Badge>
           }
         >

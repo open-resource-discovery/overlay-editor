@@ -1,6 +1,6 @@
 {
   "name": "@open-resource-discovery/overlay-editor",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "React components for viewing and editing ORD Overlay 0.1 documents.",
   "keywords": [
     "ord",

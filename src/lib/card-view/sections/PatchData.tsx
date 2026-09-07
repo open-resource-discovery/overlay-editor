@@ -1,14 +1,19 @@
 import { Badge, CodeBlock } from "@open-resource-discovery/ui-components";
 import { toYaml } from "../util/serialize";
+import { formatAction } from "../util/formatAction";
 import type { OverlayAction, OverlayPatch } from "../types";
 
-const PATCH_DATA_PRESENTATION: Record<
-  OverlayAction,
-  { label: string; filename: string }
-> = {
+type PatchPresentation = { label: string; filename: string };
+
+const PATCH_DATA_PRESENTATION: Record<OverlayAction, PatchPresentation> = {
   update: { label: "Replacement value", filename: "replacement.yaml" },
   merge: { label: "Merge payload", filename: "merge-payload.yaml" },
   remove: { label: "Removal mask", filename: "removal-mask.yaml" },
+};
+
+const FALLBACK_PRESENTATION: PatchPresentation = {
+  label: "Patch data",
+  filename: "patch-data.yaml",
 };
 
 type Props = { patch: OverlayPatch };
@@ -26,10 +31,30 @@ export function PatchData({ patch }: Props) {
 
   if (data === undefined) return null;
 
-  const { label, filename } = PATCH_DATA_PRESENTATION[action];
+  // `action` is typed as `OverlayAction`, but the overlay document is parsed
+  // from untrusted JSON/YAML, so at runtime it can hold any value. Only treat
+  // it as recognized when it is a string that is an *own* key of the map. This
+  // rejects non-strings (e.g. `["update"]`, which would otherwise coerce to
+  // "update") and inherited properties (e.g. `"toString"`, `"__proto__"`),
+  // then falls back instead of crashing.
+  const rawAction: unknown = action;
+  const isKnownAction =
+    typeof rawAction === "string" &&
+    Object.prototype.hasOwnProperty.call(PATCH_DATA_PRESENTATION, rawAction);
+  const { label, filename } = isKnownAction
+    ? (PATCH_DATA_PRESENTATION as Record<string, PatchPresentation>)[
+        rawAction as string
+      ]
+    : FALLBACK_PRESENTATION;
 
   return (
     <section className="overlay-field">
+      {!isKnownAction ? (
+        <div className="overlay-callout overlay-callout-destructive">
+          Unrecognized patch action <code>{formatAction(action)}</code>. Showing
+          the raw payload below.
+        </div>
+      ) : null}
       <header className="overlay-field-header">
         <h4 className="overlay-field-label">{label}</h4>
         <Badge
@@ -37,7 +62,7 @@ export function PatchData({ patch }: Props) {
           size="sm"
           className="uppercase"
         >
-          {action}
+          {formatAction(action)}
         </Badge>
       </header>
       <CodeBlock
