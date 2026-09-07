@@ -11,6 +11,10 @@ export function actionVariant(action: OverlayAction): BadgeVariant {
       return "success";
     case "remove":
       return "destructive";
+    default:
+      // `action` is typed as `OverlayAction`, but the overlay document is
+      // parsed from untrusted input and may carry an unknown action value.
+      return "secondary";
   }
 }
 
