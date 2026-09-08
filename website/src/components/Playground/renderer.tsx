@@ -29,6 +29,56 @@ function getOverlayGlobal(): OverlayPlaygroundGlobal | undefined {
     .OverlayPlayground;
 }
 
+// Load the standalone bundle exactly once, shared across every StandaloneCard
+// instance. Resolves when `window.OverlayPlayground` is available. This replaces
+// per-instance polling + arbitrary timeouts: multiple cards mounting await the
+// same promise instead of each racing to load/observe the script.
+let playgroundPromise: Promise<OverlayPlaygroundGlobal> | null = null;
+
+function loadPlayground(
+  cssUrl: string,
+  jsUrl: string,
+): Promise<OverlayPlaygroundGlobal> {
+  if (playgroundPromise) return playgroundPromise;
+
+  playgroundPromise = new Promise<OverlayPlaygroundGlobal>(
+    (resolve, reject) => {
+      if (!document.querySelector(`link[href="${cssUrl}"]`)) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = cssUrl;
+        document.head.appendChild(link);
+      }
+
+      const existing = getOverlayGlobal();
+      if (existing) {
+        resolve(existing);
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = jsUrl;
+      // The IIFE assigns `window.OverlayPlayground` synchronously as it executes,
+      // so it is present by the time `onload` fires — no polling/timeout needed.
+      script.onload = () => {
+        const overlay = getOverlayGlobal();
+        if (overlay) resolve(overlay);
+        else reject(new Error("OverlayPlayground missing after script load"));
+      };
+      script.onerror = () =>
+        reject(new Error("Failed to load OverlayPlayground script"));
+      document.body.appendChild(script);
+    },
+  );
+
+  // Don't cache a rejection forever — let the next mount retry a failed load.
+  playgroundPromise.catch(() => {
+    playgroundPromise = null;
+  });
+
+  return playgroundPromise;
+}
+
 // Why injection instead of `import()`:
 //
 // `@open-resource-discovery/overlay-editor` and its `ui-components` dependency
@@ -55,65 +105,27 @@ function StandaloneCard({
 
   const [error, setError] = useState<string | null>(null);
 
-  // Load the standalone assets and initialise once.
+  // Load the shared standalone bundle, then initialise this card once.
   useEffect(() => {
     let mounted = true;
 
-    const loadAndInit = async (): Promise<void> => {
-      try {
-        if (!document.querySelector(`link[href="${cssUrl}"]`)) {
-          const link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = cssUrl;
-          document.head.appendChild(link);
-        }
-
-        if (!getOverlayGlobal()) {
-          await new Promise<void>((resolve, reject) => {
-            const existing = document.querySelector(`script[src="${jsUrl}"]`);
-            if (existing) {
-              const timer = setInterval(() => {
-                if (getOverlayGlobal()) {
-                  clearInterval(timer);
-                  resolve();
-                }
-              }, 50);
-              setTimeout(() => {
-                clearInterval(timer);
-                reject(new Error("Timeout waiting for OverlayPlayground"));
-              }, 10000);
-              return;
-            }
-            const script = document.createElement("script");
-            script.src = jsUrl;
-            script.onload = () => setTimeout(resolve, 50);
-            script.onerror = () =>
-              reject(new Error("Failed to load OverlayPlayground script"));
-            document.body.appendChild(script);
-          });
-        }
-
+    loadPlayground(cssUrl, jsUrl)
+      .then((overlay) => {
         if (!mounted || !containerRef.current) return;
-
-        const overlay = getOverlayGlobal();
-        if (!overlay) throw new Error("OverlayPlayground global not available");
-
         instanceRef.current = overlay.init({
           el: containerRef.current,
           content: contentRef.current,
           theme: themeRef.current,
         });
-      } catch (err) {
+      })
+      .catch((err: unknown) => {
         if (mounted)
           setError(
             err instanceof Error
               ? err.message
               : "Failed to load overlay renderer",
           );
-      }
-    };
-
-    void loadAndInit();
+      });
 
     return () => {
       mounted = false;
