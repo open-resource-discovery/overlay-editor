@@ -43,7 +43,7 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
             No examples match &ldquo;{query}&rdquo;.
           </p>
         ) : (
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-2 p-0">
             {filtered.map((o) => (
               <li key={o.id}>
                 <Card
@@ -61,7 +61,7 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
                     selectedId === o.id && "border-primary/60 bg-accent/40",
                   )}
                 >
-                  <Card.Header className="p-3">
+                  <Card.Header className="p-3!">
                     <div className="flex items-start justify-between gap-2">
                       <Card.Title className="text-sm leading-tight">
                         {o.title}
@@ -74,8 +74,8 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
                       </Badge>
                     </div>
                   </Card.Header>
-                  <Card.Content className="px-3 pb-3 pt-0">
-                    <p className="line-clamp-2 text-xs text-muted-foreground">
+                  <Card.Content className="px-3! pb-3! pt-0!">
+                    <p className="line-clamp-2 text-xs text-muted-foreground mb-0">
                       {o.description}
                     </p>
                   </Card.Content>

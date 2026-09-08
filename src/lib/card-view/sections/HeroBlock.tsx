@@ -12,9 +12,9 @@ type Props = { overlay: OrdOverlay };
 function ProvenanceCard({ overlay }: { overlay: OrdOverlay }) {
   return (
     <Card>
-      <Card.Header>
-        <Card.Title>Provenance</Card.Title>
-        <Card.Description>
+      <Card.Header className="pb-2">
+        <Card.Title className="mb-1">Provenance</Card.Title>
+        <Card.Description className="m-0">
           How this overlay is identified and scoped.
         </Card.Description>
       </Card.Header>

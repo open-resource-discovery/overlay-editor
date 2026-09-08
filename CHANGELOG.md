@@ -12,10 +12,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Added Neo Nephos footer (swizzled Docusaurus `Footer` component) with EU/NextGenerationEU funding notice, Linux Foundation Europe copyright, and theme-aware Neonephos logo, matching the `a2a-editor` site.
 - Added `@easyops-cn/docusaurus-search-local` for full-text doc search in the navbar.
 - Styled the navbar GitHub button and search bar to match the `a2a-editor` site (GitHub SVG icon pill, custom search box with icon and keyboard hint).
+- Added a self-contained standalone bundle for embedding the overlay card view in host pages, with styles scoped so they resist host-framework (e.g. Docusaurus/Infima) CSS bleed without leaking out.
+- Added a Tailwind build for the library so utility classes used by the overlay's own card-view components (e.g. `pb-2`) are generated and applied, not just those inherited from `ui-components`.
+- ORD Overlay logo
 
 ### Changed
 
 - Replaced the broad `webpack-dev-server` version override with a targeted `uuid` override, remediating the transitive advisory without forcing a major bump of the dev server.
+- The documentation playground now renders the card view via the standalone bundle (loaded as a static asset) instead of importing the library through the site bundler, so ORD styles win over the host framework without affecting other pages.
+- The website now depends on the published `@open-resource-discovery/ui-components` rather than a local build, and example-list card padding was tightened.
 
 ### Fixed
 
@@ -24,6 +29,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Updated ORD Overlay spec link on the home page hero to point directly to the overlay interface spec (`/spec-v1/interfaces/OrdOverlay`).
 - Fixed the navbar "Home" item staying highlighted on the Documentation and Playground pages; it is now active only on the home page.
 - Silenced the spurious "ResizeObserver loop completed with undelivered notifications" dev-server error overlay that appeared when navigating to or from the Playground — a benign browser notice, not a real error, so all other runtime errors still surface.
+- Fixed host-page (Docusaurus/Infima) styles bleeding into the playground: oversized paragraph and heading margins and heading font-sizes are neutralized within the ORD-scoped card view, and card/code-block borders no longer render black — while the home and documentation pages stay Infima-styled.
+- Fixed the underlined hover effect on the landing page
 
 ## [[0.2.1](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.1)] - 2026-08-26
 
