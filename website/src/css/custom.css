@@ -497,3 +497,10 @@ nav.navbar
 [class*="searchClearButton"] {
   cursor: pointer;
 }
+
+.main-wrapper a {
+  text-decoration: none !important;
+}
+.main-wrapper a:hover {
+  text-decoration: none !important;
+}

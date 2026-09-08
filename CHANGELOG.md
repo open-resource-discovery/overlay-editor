@@ -30,6 +30,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Fixed the navbar "Home" item staying highlighted on the Documentation and Playground pages; it is now active only on the home page.
 - Silenced the spurious "ResizeObserver loop completed with undelivered notifications" dev-server error overlay that appeared when navigating to or from the Playground — a benign browser notice, not a real error, so all other runtime errors still surface.
 - Fixed host-page (Docusaurus/Infima) styles bleeding into the playground: oversized paragraph and heading margins and heading font-sizes are neutralized within the ORD-scoped card view, and card/code-block borders no longer render black — while the home and documentation pages stay Infima-styled.
+- Fixed the underlined hover effect on the landing page
 
 ## [[0.2.1](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.1)] - 2026-08-26
 
