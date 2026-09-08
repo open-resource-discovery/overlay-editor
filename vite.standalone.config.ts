@@ -15,67 +15,41 @@ import { resolve } from "node:path";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 /**
- * Strip all @layer wrappers from CSS output and scope loose selectors to
- * `.overlay-root`.
- *
- * The standalone bundle is embedded in host pages (e.g. Docusaurus) where
- * Infima's un-layered global styles would always beat our layered rules.
- * Removing @layer wrappers makes everything compete on specificity alone, so
- * the `.overlay-root :where(...)` scoped preflight wins over host globals while
- * ui-components' utilities keep winning over the preflight by source order.
+ * Safety gate: return any selector that would leak to the host site — i.e. one
+ * not confined to the card (`.overlay-card-view` / `.overlay-root` / `.ord-ui`).
+ * The un-layered bundle competes with the Docusaurus site on specificity, so an
+ * un-scoped selector here would apply globally. The build fails if this is
+ * non-empty.
  */
-function stripCssLayers(css: string): string {
-  let result = css;
-  const layerRegex = /@layer\s+[\w-]+\s*\{/g;
-  let match: RegExpExecArray | null;
-  const matches: { start: number; end: number }[] = [];
-
-  while ((match = layerRegex.exec(result)) !== null) {
-    const start = match.index;
-    let depth = 0;
-    let i = start + match[0].length - 1; // position of opening brace
-    for (; i < result.length; i++) {
-      if (result[i] === "{") depth++;
-      else if (result[i] === "}") {
-        depth--;
-        if (depth === 0) break;
+function findUnscopedSelectors(css: string): string[] {
+  const root = postcss.parse(css);
+  const leaks: string[] = [];
+  root.walkRules((rule) => {
+    const parent = rule.parent;
+    if (parent?.type === "atrule") {
+      const name = (parent as postcss.AtRule).name.toLowerCase();
+      if (name.includes("keyframes") || name === "font-face") return;
+    }
+    for (const sel of rule.selectors) {
+      const s = sel.trim();
+      if (!s) continue;
+      if (
+        !s.includes(".overlay-card-view") &&
+        !s.includes(".overlay-root") &&
+        !s.includes(".ord-ui")
+      ) {
+        leaks.push(s);
       }
     }
-    matches.push({ start, end: i });
-  }
-
-  // Process in reverse order to preserve indices.
-  for (let j = matches.length - 1; j >= 0; j--) {
-    const { start, end } = matches[j];
-    const layerHeader = result.slice(start, result.indexOf("{", start) + 1);
-    result =
-      result.slice(0, start) +
-      result.slice(start + layerHeader.length, end) +
-      result.slice(end + 1);
-  }
-
-  // Remove bare @layer order declarations like "@layer components;".
-  result = result.replace(/@layer\s+[\w,\s-]+;/g, "");
-
-  // Scope zero-specificity :where(.util) selectors to .overlay-root.
-  result = result.replace(
-    /(?<![.\w])(:where\(\.[a-zA-Z])/g,
-    ".overlay-root $1",
-  );
-
-  // Scope the @supports properties block to .overlay-root.
-  result = result.replace(
-    /(\{)\*\s*,\s*:before\s*,\s*:after\s*,\s*::backdrop\s*\{/g,
-    "$1.overlay-root *,.overlay-root :before,.overlay-root :after,.overlay-root ::backdrop{",
-  );
-
-  return result;
+  });
+  return leaks;
 }
 
 /**
- * Confine every rule to the rendered card so the (now unlayered) bundle can
- * beat host globals INSIDE the card without leaking OUT to the rest of the
- * Docusaurus site — including the playground's own chrome.
+ * Strip `@layer` wrappers AND confine every rule to the rendered card, in a
+ * single PostCSS pass, so the (now un-layered) bundle can beat host globals
+ * INSIDE the card without leaking OUT to the rest of the Docusaurus site —
+ * including the playground's own chrome.
  *
  * Scope target is `.overlay-card-view` (the wrapper `OverlayCardView` renders),
  * NOT `.ord-ui`. The playground wraps its chrome (search box, example list —
@@ -97,6 +71,19 @@ function scopeToCardView(css: string): string {
   const CARD = ".overlay-card-view";
   const TOKEN_SCOPE = ":is(.overlay-card-view, .ord-ui)";
   const root = postcss.parse(css);
+
+  // 1. Unlayer: hoist `@layer x { … }` contents in place and drop bare
+  //    `@layer a, b;` statements — so the bundle competes with the host page
+  //    (Docusaurus/Infima, un-layered) on specificity + source order. Collect
+  //    first, then mutate, to avoid skipping nodes during the walk.
+  const layerRules: postcss.AtRule[] = [];
+  root.walkAtRules("layer", (atRule) => {
+    layerRules.push(atRule);
+  });
+  for (const atRule of layerRules) {
+    if (atRule.nodes) atRule.replaceWith(atRule.nodes);
+    else atRule.remove();
+  }
 
   const alreadyScoped = (sel: string): boolean =>
     sel.includes(".overlay-card-view") ||
@@ -138,11 +125,20 @@ export default defineConfig({
         const cssPath = resolve(outDir, "overlay-cardview.css");
         if (existsSync(cssPath)) {
           let css = readFileSync(cssPath, "utf-8");
-          css = stripCssLayers(css);
           css = scopeToCardView(css);
+
+          // Safety gate: refuse to ship CSS that would leak onto the host site.
+          const leaks = findUnscopedSelectors(css);
+          if (leaks.length > 0) {
+            throw new Error(
+              `overlay-cardview.css has ${leaks.length} un-scoped selector(s) that would leak to the host site: ` +
+                leaks.slice(0, 10).join(", "),
+            );
+          }
+
           writeFileSync(cssPath, css);
           console.log(
-            "Stripped @layer wrappers and scoped rules to .overlay-card-view in overlay-cardview.css",
+            "Unlayered + scoped overlay-cardview.css to .overlay-card-view (0 leaks)",
           );
         }
       },
