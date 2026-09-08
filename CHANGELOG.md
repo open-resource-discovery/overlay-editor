@@ -5,7 +5,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) rules.
 
-
 ## [unreleased]
 
 ## [[0.2.2](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.2)] - 2026-09-08
@@ -34,7 +33,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Silenced the spurious "ResizeObserver loop completed with undelivered notifications" dev-server error overlay that appeared when navigating to or from the Playground — a benign browser notice, not a real error, so all other runtime errors still surface.
 - Fixed host-page (Docusaurus/Infima) styles bleeding into the playground: oversized paragraph and heading margins and heading font-sizes are neutralized within the ORD-scoped card view, and card/code-block borders no longer render black — while the home and documentation pages stay Infima-styled.
 - Fixed the underlined hover effect on the landing page
-
 
 ## [[0.2.1](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.1)] - 2026-08-26
 
