@@ -25,19 +25,19 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="shrink-0 border-b border-border p-3">
+      <div className="shrink-0 border-b! border-border p-2!">
         <div className="relative">
           <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search examples…"
-            className="pl-8"
+            className="pl-8!"
           />
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-2">
+      <div className="flex-1 overflow-y-auto p-2!">
         {filtered.length === 0 ? (
           <p className="px-2 py-4 text-center text-xs text-muted-foreground">
             No examples match &ldquo;{query}&rdquo;.
