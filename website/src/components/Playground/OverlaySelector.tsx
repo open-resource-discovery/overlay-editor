@@ -25,7 +25,7 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="shrink-0 border-b! border-border p-2!">
+      <div className="shrink-0 border-b! border-border! p-2!">
         <div className="relative">
           <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -63,7 +63,7 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
                 >
                   <Card.Header className="p-3!">
                     <div className="flex items-start justify-between gap-2">
-                      <Card.Title className="text-sm leading-tight">
+                      <Card.Title className="text-sm! leading-tight">
                         {o.title}
                       </Card.Title>
                       <Badge
@@ -74,7 +74,7 @@ export function OverlaySelector({ overlays, selectedId, onSelect }: Props) {
                       </Badge>
                     </div>
                   </Card.Header>
-                  <Card.Content className="px-3! pb-3! pt-0!">
+                  <Card.Content className="px-3! pb-3!">
                     <p className="line-clamp-2 text-xs text-muted-foreground mb-0">
                       {o.description}
                     </p>

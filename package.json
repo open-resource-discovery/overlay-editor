@@ -85,7 +85,7 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@open-resource-discovery/ui-components": "^0.1.6",
+    "@open-resource-discovery/ui-components": "file:../ui-components",
     "lucide-react": "^1.22.0",
     "yaml": "^2.9.0",
     "zustand": "^5.0.14"

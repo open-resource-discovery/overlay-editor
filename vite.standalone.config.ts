@@ -16,7 +16,15 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 /**
  * Safety gate: return any selector that would leak to the host site — i.e. one
- * not confined to the card (`.overlay-card-view` / `.overlay-root` / `.ord-ui`).
+ * not confined to the card (`.overlay-card-view` / `.overlay-root`).
+ *
+ * Note `.ord-ui` is deliberately NOT an accepted scope here. It is a GLOBAL
+ * class the playground chrome also carries (see `scopeToCardView`), so a bundle
+ * rule left scoped only to `.ord-ui` would apply to the chrome too — which is
+ * exactly how ui-components' `.ord-ui :where(*){border-width:0}` reset was
+ * zeroing the chrome's Input/Card borders. All `.ord-ui` rules must be further
+ * confined to `.overlay-card-view` before shipping.
+ *
  * The un-layered bundle competes with the Docusaurus site on specificity, so an
  * un-scoped selector here would apply globally. The build fails if this is
  * non-empty.
@@ -35,8 +43,7 @@ function findUnscopedSelectors(css: string): string[] {
       if (!s) continue;
       if (
         !s.includes(".overlay-card-view") &&
-        !s.includes(".overlay-root") &&
-        !s.includes(".ord-ui")
+        !s.includes(".overlay-root")
       ) {
         leaks.push(s);
       }
@@ -61,15 +68,25 @@ function findUnscopedSelectors(css: string): string[] {
  * them. `.overlay-card-view` only ever wraps the rendered overlay, whose markup
  * uses ui-components' own classes exclusively, so there is no such conflict.
  *
- * `:root` / `:host` token blocks are REPLACED with `:is(.overlay-card-view,
- * .ord-ui)` so the theme tokens land on the `.ord-ui` element (where
- * `--ord-*` are defined and thus resolve) and out of the global `:root` — a
- * global `:root{--radius:var(--ord-radius)}` would override the site's own
- * `--radius` on every page.
+ * For the same reason, ui-components' own `.ord-ui`-scoped rules (its reset and
+ * `.ord-ui{--ord-*}` token blocks) are ALSO further confined here to
+ * `.overlay-card-view .ord-ui`. `.ord-ui` alone is global — the chrome carries
+ * it too — so leaving the reset at bare `.ord-ui` made this globally-loaded
+ * bundle re-apply `.ord-ui :where(*){border-width:0}` to the chrome, zeroing
+ * the chrome's Input/Card borders (its own webpack copy of the reset had been
+ * beaten by its utilities in source order; this late-loaded duplicate had not).
+ * The chrome gets its reset from its own ui-components stylesheet, so the
+ * bundle must not touch it.
+ *
+ * `:root` / `:host` token blocks are REPLACED with `.overlay-card-view` so the
+ * theme defaults land on the card root (the outermost card ancestor, inherited
+ * by all card content) and out of the global `:root`/`.ord-ui` — a global
+ * `:root{--radius:var(--ord-radius)}` would override the site's own `--radius`
+ * on every page, and a global `.ord-ui` block would reach the chrome.
  */
 function scopeToCardView(css: string): string {
   const CARD = ".overlay-card-view";
-  const TOKEN_SCOPE = ":is(.overlay-card-view, .ord-ui)";
+  const TOKEN_SCOPE = ".overlay-card-view";
   const root = postcss.parse(css);
 
   // 1. Unlayer: hoist `@layer x { … }` contents in place and drop bare
@@ -85,10 +102,11 @@ function scopeToCardView(css: string): string {
     else atRule.remove();
   }
 
+  // `.ord-ui` is intentionally absent: it is a global class (the chrome has it
+  // too), so ui-components' `.ord-ui`-scoped reset/token rules must be prefixed
+  // with `.overlay-card-view` like everything else, not left global.
   const alreadyScoped = (sel: string): boolean =>
-    sel.includes(".overlay-card-view") ||
-    sel.includes(".overlay-root") ||
-    sel.includes(".ord-ui");
+    sel.includes(".overlay-card-view") || sel.includes(".overlay-root");
 
   root.walkRules((rule) => {
     // Skip @keyframes / @font-face frames (their "selectors" aren't element
