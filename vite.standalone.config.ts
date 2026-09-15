@@ -41,10 +41,7 @@ function findUnscopedSelectors(css: string): string[] {
     for (const sel of rule.selectors) {
       const s = sel.trim();
       if (!s) continue;
-      if (
-        !s.includes(".overlay-card-view") &&
-        !s.includes(".overlay-root")
-      ) {
+      if (!s.includes(".overlay-card-view") && !s.includes(".overlay-root")) {
         leaks.push(s);
       }
     }
