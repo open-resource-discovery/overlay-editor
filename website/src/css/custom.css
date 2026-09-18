@@ -143,46 +143,16 @@
 }
 
 /* ============================================================================
- * Playground (.ord-ui) — neutralize Infima's element-level bleed.
+ * Playground (.ord-ui) — component theming.
  *
- * Infima ships UNLAYERED global rules (p{margin}, h1..h6{margin,font-size,...},
- * ul/ol{...}) that otherwise win over the layered ui-components/Tailwind styles
- * inside the playground. These resets are:
- *   - scoped to `.ord-ui`, so home/docs pages (no `.ord-ui`) keep Infima intact;
- *   - kept at specificity (0,0,1) via `:where(.ord-ui) <el>`, so they beat
- *     Infima's element selectors by source order (this file loads after Infima)
- *     while ANY Tailwind utility class (0,1,0) still overrides them.
- * Border uses longhands (never the `border` shorthand, which would reset
- * border-color to currentcolor and blacken ui-components borders).
+ * The element-level Infima-bleed reset that used to live here (neutralizing
+ * Infima's unlayered p/heading/list margins + heading font-size inside the
+ * playground) is no longer needed: @open-resource-discovery/ui-components now
+ * ships its own `.ord-ui`-scoped reset at specificity (0,1,0), which beats
+ * Infima's bare-element (0,0,1) rules outright. Its stylesheet is loaded on
+ * every page via `clientModules/ordUi.ts`, so the chrome (wrapped in `.ord-ui`)
+ * is covered automatically.
  * ==========================================================================*/
-:where(.ord-ui) p,
-:where(.ord-ui) h1,
-:where(.ord-ui) h2,
-:where(.ord-ui) h3,
-:where(.ord-ui) h4,
-:where(.ord-ui) h5,
-:where(.ord-ui) h6,
-:where(.ord-ui) ul,
-:where(.ord-ui) ol,
-:where(.ord-ui) dl,
-:where(.ord-ui) dd,
-:where(.ord-ui) figure,
-:where(.ord-ui) blockquote,
-:where(.ord-ui) pre,
-:where(.ord-ui) hr {
-  margin: inherit;
-}
-:where(.ord-ui) h1,
-:where(.ord-ui) h2,
-:where(.ord-ui) h3,
-:where(.ord-ui) h4,
-:where(.ord-ui) h5,
-:where(.ord-ui) h6 {
-  /* Neutralize Infima's oversized heading font-size (kept at (0,0,1) so any
-     Tailwind size utility still wins). font-weight/line-height are left to
-     Infima/inheritance so titles stay bold. */
-  font-size: inherit;
-}
 
 /* Monaco decorations for lines affected by the active patch. */
 .target-highlight-line {
