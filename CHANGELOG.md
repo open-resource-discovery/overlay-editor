@@ -7,6 +7,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [unreleased]
 
+### Changed
+
+- Bumped to `@open-resource-discovery/ui-components@^0.2.0`. The library now ships its own `.ord-ui`-scoped element reset and Tailwind preflight at specificity `(0,1,0)`, which beats Infima's unlayered `(0,0,1)` selectors outright. As a result, the consumer-side workarounds that were previously needed are removed:
+  - The hand-rolled `.overlay-root`-scoped preflight in `src/lib/styles.css` is deleted — the overlay is rendered inside `.ord-ui`, so the library's reset covers it.
+  - The Infima-bleed neutralization block in `website/src/css/custom.css` (the `:where(.ord-ui) p/h1…h6/ul/ol/…` margin and font-size resets) is deleted.
+- Fixed the appearance of the left-pane overlay selector: corrected border, padding, and card title font-size by switching to Tailwind important-modifier utilities (`border-b!`, `border-border!`, `p-2!`, `text-sm!`) so the correct values take precedence over any inherited host styles.
+- Tightened the standalone bundle's CSS scoping in `vite.standalone.config.ts`: `.ord-ui` is no longer treated as an already-scoped selector, so ui-components' own `.ord-ui`-scoped reset and token rules are further prefixed with `.overlay-card-view` in the standalone bundle. This prevents the globally-loaded bundle from re-applying the element reset to the Docusaurus chrome, which was zeroing `Input`/`Card` borders in the playground header.
+- Fixed Vitest crashes when running tests against a symlinked (`file:`) ui-components dependency: added `resolve.dedupe` for React and inlined `@open-resource-discovery/ui-components` and `@base-ui/*` in `vitest.config.ts` to force a single React instance and avoid "Cannot read properties of null (reading 'useState')" hook errors.
+
 ## [[0.2.2](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.2)] - 2026-09-08
 
 ### Added
