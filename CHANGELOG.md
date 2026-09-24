@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [unreleased]
 
+## [[0.2.3](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.3)] - 2026-09-23
+
 ### Changed
 
 - Bumped to `@open-resource-discovery/ui-components@^0.2.0`. The library now ships its own `.ord-ui`-scoped element reset and Tailwind preflight at specificity `(0,1,0)`, which beats Infima's unlayered `(0,0,1)` selectors outright. As a result, the consumer-side workarounds that were previously needed are removed:
