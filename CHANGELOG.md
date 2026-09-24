@@ -5,7 +5,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) rules.
 
-
 ## [unreleased]
 
 ## [[0.2.3](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.3)] - 2026-09-23
@@ -18,7 +17,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Fixed the appearance of the left-pane overlay selector: corrected border, padding, and card title font-size by switching to Tailwind important-modifier utilities (`border-b!`, `border-border!`, `p-2!`, `text-sm!`) so the correct values take precedence over any inherited host styles.
 - Tightened the standalone bundle's CSS scoping in `vite.standalone.config.ts`: `.ord-ui` is no longer treated as an already-scoped selector, so ui-components' own `.ord-ui`-scoped reset and token rules are further prefixed with `.overlay-card-view` in the standalone bundle. This prevents the globally-loaded bundle from re-applying the element reset to the Docusaurus chrome, which was zeroing `Input`/`Card` borders in the playground header.
 - Fixed Vitest crashes when running tests against a symlinked (`file:`) ui-components dependency: added `resolve.dedupe` for React and inlined `@open-resource-discovery/ui-components` and `@base-ui/*` in `vitest.config.ts` to force a single React instance and avoid "Cannot read properties of null (reading 'useState')" hook errors.
-
 
 ## [[0.2.2](https://github.com/open-resource-discovery/overlay-editor/releases/tag/rel/0.2.2)] - 2026-09-08
 
