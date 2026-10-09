@@ -116,7 +116,7 @@
   "overrides": {
     "dompurify": "3.4.16",
     "js-yaml": ">=4.3.1",
-    "postcss": "8.5.28",
+    "postcss": "8.5.29",
     "undici": "8.10.2"
   }
 }
