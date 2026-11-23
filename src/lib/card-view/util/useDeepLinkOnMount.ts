@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { parseSectionDomId, type ActiveSection } from "../activeSection";
+import { type ActiveSection, parseSectionDomId } from "../activeSection";
 import { scrollToSection } from "./scrollToSection";
 
 export function useDeepLinkOnMount(

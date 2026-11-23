@@ -1,7 +1,7 @@
 import { Badge, CodeBlock } from "@open-resource-discovery/ui-components";
-import { toYaml } from "../util/serialize";
-import { formatAction } from "../util/formatAction";
 import type { OverlayAction, OverlayPatch } from "../types";
+import { formatAction } from "../util/formatAction";
+import { toYaml } from "../util/serialize";
 
 type PatchPresentation = { label: string; filename: string };
 
@@ -40,7 +40,7 @@ export function PatchData({ patch }: Props) {
   const rawAction: unknown = action;
   const isKnownAction =
     typeof rawAction === "string" &&
-    Object.prototype.hasOwnProperty.call(PATCH_DATA_PRESENTATION, rawAction);
+    Object.hasOwn(PATCH_DATA_PRESENTATION, rawAction);
   const { label, filename } = isKnownAction
     ? (PATCH_DATA_PRESENTATION as Record<string, PatchPresentation>)[
         rawAction as string

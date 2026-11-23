@@ -2,7 +2,9 @@ import type { OverlayPatch } from "./types";
 import { formatAction } from "./util/formatAction";
 
 export type ActiveSection =
-  { kind: "overview" } | { kind: "target" } | { kind: "patch"; index: number };
+  | { kind: "overview" }
+  | { kind: "target" }
+  | { kind: "patch"; index: number };
 
 export const OVERVIEW: ActiveSection = { kind: "overview" };
 export const TARGET: ActiveSection = { kind: "target" };

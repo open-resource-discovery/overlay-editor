@@ -22,7 +22,7 @@
 import React from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { OverlayCardView } from "./card-view/index";
-import { useThemeStore, type Theme } from "./card-view/useTheme";
+import { type Theme, useThemeStore } from "./card-view/useTheme";
 
 // Import the scoped preflight + layout CSS so it is bundled into
 // `overlay-cardview.css`. `OverlayCardView` transitively imports
@@ -106,10 +106,10 @@ if (typeof window !== "undefined") {
   window.OverlayPlayground = OverlayPlayground;
 }
 
+export { OverlayCardView } from "./card-view/index";
+export type { ResolvedTheme, Theme } from "./card-view/useTheme";
+export { useTheme, useThemeStore } from "./card-view/useTheme";
 // Re-exported for ESM/type consumers; the IIFE bundle installs the API on
 // `window.OverlayPlayground` above. (No default export — keeps the IIFE global
 // unambiguous; see vite.standalone.config.ts.)
 export { OverlayPlayground };
-export { OverlayCardView } from "./card-view/index";
-export { useTheme, useThemeStore } from "./card-view/useTheme";
-export type { Theme, ResolvedTheme } from "./card-view/useTheme";

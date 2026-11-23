@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { PatchCard } from "./PatchCard";
 import type { OverlayPatch } from "../types";
+import { PatchCard } from "./PatchCard";
 
 afterEach(cleanup);
 

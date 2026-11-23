@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
 import { Button } from "@open-resource-discovery/ui-components";
-import { Copy, Check, Download, ExternalLink } from "lucide-react";
-import { OVERLAY_SPEC_URL, type OrdOverlay } from "../types";
+import { Check, Copy, Download, ExternalLink } from "lucide-react";
+import { useMemo, useState } from "react";
+import { type OrdOverlay, OVERLAY_SPEC_URL } from "../types";
 import {
   downloadAsFile,
   overlayFilenameFor,

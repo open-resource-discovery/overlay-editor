@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { Badge, Button } from "@open-resource-discovery/ui-components";
 import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
+import { useState } from "react";
 import type { OverlayPatch } from "../types";
-import { PatchCard } from "./PatchCard";
 import { PatchBoundary } from "./PatchBoundary";
+import { PatchCard } from "./PatchCard";
 
 type Props = { patches: OverlayPatch[] };
 

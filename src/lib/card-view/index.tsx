@@ -3,8 +3,8 @@
 import "@open-resource-discovery/ui-components/styles";
 import { cn } from "@open-resource-discovery/ui-components";
 import { useEffect } from "react";
-import { useOverlayStore } from "./store";
 import { OverlayApp } from "./OverlayApp";
+import { useOverlayStore } from "./store";
 import overlayLayoutStyles from "./styles";
 
 export type OverlayCardViewProps = {

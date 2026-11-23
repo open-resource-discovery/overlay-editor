@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { useThemeStore } from "@/src/lib/card-view/useTheme";
 
 // Smoke test for the library's theme store. The store is module-level, so reset

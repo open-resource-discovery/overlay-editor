@@ -10,19 +10,17 @@
 // This lets metadata-renderer's `src/lib/overlay/index.tsx` consume overlay
 // the same way it already consumes a2a/mcp — no special-cased wrapper.
 
-export { OverlayCardView } from "./card-view/index";
+// Re-export the shared `cn` helper from ui-components — matches a2a-editor's
+// `/card-view` export of cn so wrappers can pull it from one place.
+export { cn } from "@open-resource-discovery/ui-components";
 export type { OverlayCardViewProps } from "./card-view/index";
-
+export { OverlayCardView } from "./card-view/index";
+export type { OverlayState } from "./card-view/store";
 export {
-  useOverlayStore,
   selectParsedOverlay,
   selectParseError,
+  useOverlayStore,
 } from "./card-view/store";
-export type { OverlayState } from "./card-view/store";
-
-export { useTheme, useThemeStore } from "./card-view/useTheme";
-export type { Theme, ResolvedTheme } from "./card-view/useTheme";
-
 export type {
   OrdOverlay,
   OverlayAction,
@@ -32,7 +30,5 @@ export type {
   OverlayTarget,
   OverlayVisibility,
 } from "./card-view/types";
-
-// Re-export the shared `cn` helper from ui-components — matches a2a-editor's
-// `/card-view` export of cn so wrappers can pull it from one place.
-export { cn } from "@open-resource-discovery/ui-components";
+export type { ResolvedTheme, Theme } from "./card-view/useTheme";
+export { useTheme, useThemeStore } from "./card-view/useTheme";

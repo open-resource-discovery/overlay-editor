@@ -1,8 +1,8 @@
-import { useEffect, useRef, type RefObject } from "react";
+import { type RefObject, useEffect, useRef } from "react";
 import {
+  type ActiveSection,
   parseSectionDomId,
   sectionsEqual,
-  type ActiveSection,
 } from "../activeSection";
 
 const TOP_VIEWPORT_MARGIN = "-20% 0px -60% 0px";

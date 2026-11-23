@@ -1,5 +1,5 @@
-import React from "react";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import type React from "react";
 import "./footer.css";
 import { useColorMode } from "@docusaurus/theme-common";
 

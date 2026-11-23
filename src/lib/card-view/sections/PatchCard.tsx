@@ -4,11 +4,11 @@ import {
   MarkdownText,
 } from "@open-resource-discovery/ui-components";
 import type { OverlayPatch } from "../types";
-import { describeSelector } from "../util/describeSelector";
 import { actionVariant } from "../util/badgeVariants";
+import { describeSelector } from "../util/describeSelector";
 import { formatAction } from "../util/formatAction";
-import { SelectorChip } from "./SelectorChip";
 import { PatchData } from "./PatchData";
+import { SelectorChip } from "./SelectorChip";
 
 type Props = {
   patch: OverlayPatch;

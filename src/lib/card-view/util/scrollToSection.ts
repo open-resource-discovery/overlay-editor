@@ -1,4 +1,4 @@
-import { sectionDomId, type ActiveSection } from "../activeSection";
+import { type ActiveSection, sectionDomId } from "../activeSection";
 
 export function scrollToSection(section: ActiveSection): boolean {
   const target = document.getElementById(sectionDomId(section));

@@ -1,7 +1,9 @@
 export type OverlayAction = "update" | "merge" | "remove";
 export type OverlayVisibility = "public" | "internal" | "private";
 export type OverlayPerspective =
-  "system-type" | "system-version" | "system-instance";
+  | "system-type"
+  | "system-version"
+  | "system-instance";
 
 export interface OverlaySelector {
   root?: true;

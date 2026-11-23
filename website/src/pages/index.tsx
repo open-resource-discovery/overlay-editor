@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useBaseUrl, { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
-import { Layers, ArrowRight } from "lucide-react";
 import {
   loadPredefinedOverlays,
   type PredefinedOverlay,
 } from "@site/src/lib/predefined-overlays";
+import Layout from "@theme/Layout";
+import { ArrowRight } from "lucide-react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 
 function targetLabel(t: string): string {

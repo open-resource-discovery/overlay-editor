@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
 import BrowserOnly from "@docusaurus/BrowserOnly";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   /** Raw overlay document (JSON or YAML text). */

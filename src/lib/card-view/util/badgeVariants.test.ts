@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { actionVariant, visibilityVariant } from "./badgeVariants";
 import type { OverlayAction } from "../types";
+import { actionVariant, visibilityVariant } from "./badgeVariants";
 
 describe("actionVariant", () => {
   it("maps known actions to their badge variants", () => {

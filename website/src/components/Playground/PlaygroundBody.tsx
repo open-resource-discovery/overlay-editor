@@ -1,17 +1,17 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHistory, useLocation } from "@docusaurus/router";
-import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { useColorMode } from "@docusaurus/theme-common";
-import { Button, SplitPane, cn } from "@open-resource-discovery/ui-components";
-import { Loader2 } from "lucide-react";
-import { JsonEditor } from "./JsonEditor";
-import { OverlaySelector } from "./OverlaySelector";
-import Renderer from "./renderer";
+import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
+import { Button, cn, SplitPane } from "@open-resource-discovery/ui-components";
 import {
   loadOverlayBody,
   loadPredefinedOverlays,
   type PredefinedOverlay,
 } from "@site/src/lib/predefined-overlays";
+import { Loader2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { JsonEditor } from "./JsonEditor";
+import { OverlaySelector } from "./OverlaySelector";
+import Renderer from "./renderer";
 
 const QUERY_PARAM = "example";
 

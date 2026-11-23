@@ -1,9 +1,9 @@
-import { themes as prismThemes } from "prism-react-renderer";
-import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import type { Config } from "@docusaurus/types";
 // The Tailwind v4 PostCSS plugin. Pushed into Docusaurus' PostCSS pipeline
 // below so utility classes used by the chrome are generated at build time.
 import tailwindcss from "@tailwindcss/postcss";
+import { themes as prismThemes } from "prism-react-renderer";
 
 const baseUrl = process.env.BASE_URL || "/overlay-editor/";
 

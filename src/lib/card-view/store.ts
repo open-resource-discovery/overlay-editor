@@ -3,8 +3,8 @@
 // can push raw JSON/YAML through the same `setRawJson(content)` interface
 // they already use for a2a/mcp.
 
+import type { StoreApi, UseBoundStore } from "zustand";
 import { create } from "zustand";
-import type { UseBoundStore, StoreApi } from "zustand";
 import { loadObject } from "./loadObject";
 import type { OrdOverlay } from "./types";
 

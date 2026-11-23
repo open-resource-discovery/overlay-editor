@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
 import { useColorMode } from "@docusaurus/theme-common";
 import Editor, { type BeforeMount, type OnMount } from "@monaco-editor/react";
 import type { editor } from "monaco-editor";
+import { useEffect, useRef } from "react";
 import ordOverlaySchema from "./schemas/OrdOverlay.schema.json";
 
 interface JsonEditorProps {

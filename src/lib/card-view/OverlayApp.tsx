@@ -1,22 +1,22 @@
 "use client";
 
+import { cn, Tooltip } from "@open-resource-discovery/ui-components";
 import { useEffect, useRef, useState } from "react";
-import { Tooltip, cn } from "@open-resource-discovery/ui-components";
-import {
-  useOverlayStore,
-  selectParsedOverlay,
-  selectParseError,
-} from "./store";
-import { useTheme } from "./useTheme";
-import { OVERVIEW, sectionLabel, type ActiveSection } from "./activeSection";
+import { type ActiveSection, OVERVIEW, sectionLabel } from "./activeSection";
+import { HeroBlock } from "./sections/HeroBlock";
+import { PatchList } from "./sections/PatchList";
+import { TargetCard } from "./sections/TargetCard";
 import { OverlayShell } from "./shell/OverlayShell";
 import { OverlaySidebar, OverlaySidebarFooter } from "./shell/OverlaySidebar";
 import { OverlayToolbar } from "./shell/OverlayToolbar";
-import { HeroBlock } from "./sections/HeroBlock";
-import { TargetCard } from "./sections/TargetCard";
-import { PatchList } from "./sections/PatchList";
-import { useKeyboardNavMarker } from "./util/useKeyboardNavMarker";
+import {
+  selectParsedOverlay,
+  selectParseError,
+  useOverlayStore,
+} from "./store";
+import { useTheme } from "./useTheme";
 import { useDeepLinkOnMount } from "./util/useDeepLinkOnMount";
+import { useKeyboardNavMarker } from "./util/useKeyboardNavMarker";
 
 const WIDE_LAYOUT_MIN_WIDTH = 720;
 

@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
-import { Badge, Card, Input, cn } from "@open-resource-discovery/ui-components";
-import { Search } from "lucide-react";
+import { Badge, Card, cn, Input } from "@open-resource-discovery/ui-components";
 import type { PredefinedOverlay } from "@site/src/lib/predefined-overlays";
+import { Search } from "lucide-react";
+import { useMemo, useState } from "react";
 
 type Props = {
   overlays: PredefinedOverlay[];

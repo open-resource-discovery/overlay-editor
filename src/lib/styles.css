@@ -29,11 +29,7 @@
 .overlay-root {
   /* accent — Scalar's display-p3 blue, used for active sidebar items + hits */
   --overlay-accent: #0099ff;
-  --overlay-accent-bg: color-mix(
-    in oklab,
-    var(--overlay-accent) 12%,
-    transparent
-  );
+  --overlay-accent-bg: color-mix(in oklab, var(--overlay-accent) 12%, transparent);
 
   /* verb colors for action / method indicators */
   --overlay-action-update: #c97a17;
@@ -126,15 +122,7 @@
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  font-family: var(
-    --ord-font-mono,
-    "JetBrains Mono",
-    ui-monospace,
-    Menlo,
-    Monaco,
-    "Cascadia Code",
-    monospace
-  );
+  font-family: var(--ord-font-mono, "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", monospace);
   font-size: 10px;
   text-transform: uppercase;
   line-height: 1;
@@ -239,15 +227,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: var(
-    --ord-font-mono,
-    "JetBrains Mono",
-    ui-monospace,
-    Menlo,
-    Monaco,
-    "Cascadia Code",
-    monospace
-  );
+  font-family: var(--ord-font-mono, "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", monospace);
   font-size: 13px;
 }
 .overlay-sidebar-method {
@@ -256,15 +236,7 @@
   flex-shrink: 0;
   text-transform: uppercase;
   min-width: 50px;
-  font-family: var(
-    --ord-font-mono,
-    "JetBrains Mono",
-    ui-monospace,
-    Menlo,
-    Monaco,
-    "Cascadia Code",
-    monospace
-  );
+  font-family: var(--ord-font-mono, "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", monospace);
   text-align: right;
 }
 .overlay-sidebar-method-default {
@@ -317,15 +289,7 @@
   font-size: 13px;
   font-weight: 500;
   color: var(--ord-foreground);
-  font-family: var(
-    --ord-font-mono,
-    "JetBrains Mono",
-    ui-monospace,
-    Menlo,
-    Monaco,
-    "Cascadia Code",
-    monospace
-  );
+  font-family: var(--ord-font-mono, "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", monospace);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -416,15 +380,7 @@
   font-weight: 600;
   margin: 12px 0 0;
   color: var(--ord-foreground);
-  font-family: var(
-    --ord-font-mono,
-    "JetBrains Mono",
-    ui-monospace,
-    Menlo,
-    Monaco,
-    "Cascadia Code",
-    monospace
-  );
+  font-family: var(--ord-font-mono, "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", monospace);
   word-break: break-word;
 }
 .overlay-hero-eyebrow {
@@ -651,15 +607,7 @@
   font-size: 13px;
 }
 .overlay-selector-value {
-  font-family: var(
-    --ord-font-mono,
-    "JetBrains Mono",
-    ui-monospace,
-    Menlo,
-    Monaco,
-    "Cascadia Code",
-    monospace
-  );
+  font-family: var(--ord-font-mono, "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", monospace);
 }
 
 .overlay-fatal {

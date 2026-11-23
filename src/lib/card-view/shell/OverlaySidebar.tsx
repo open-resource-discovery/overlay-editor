@@ -1,32 +1,32 @@
+import { cn, Input } from "@open-resource-discovery/ui-components";
+import { Search } from "lucide-react";
 import {
+  type CSSProperties,
+  type RefObject,
   useCallback,
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
-  type RefObject,
 } from "react";
-import { Input, cn } from "@open-resource-discovery/ui-components";
-import { Search } from "lucide-react";
 import {
+  type ActiveSection,
   OVERVIEW,
-  TARGET,
   patchAt,
   sectionDomId,
   sectionsEqual,
-  type ActiveSection,
+  TARGET,
 } from "../activeSection";
-import { describeSelector } from "../util/describeSelector";
+import type { OrdOverlay, OverlayAction } from "../types";
 import { actionVariant } from "../util/badgeVariants";
+import { describeSelector } from "../util/describeSelector";
 import { formatAction } from "../util/formatAction";
 import { scrollToSection } from "../util/scrollToSection";
-import { useScrollSpy } from "../util/useScrollSpy";
 import { useHashSync } from "../util/useHashSync";
+import { useScrollSpy } from "../util/useScrollSpy";
 import {
-  useSearchHotkeys,
   SEARCH_HOTKEY_LABEL,
+  useSearchHotkeys,
 } from "../util/useSearchHotkeys";
-import type { OrdOverlay, OverlayAction } from "../types";
 
 type Entry = {
   section: ActiveSection;

@@ -11,11 +11,12 @@
 //     `dist/index.css` shared by every entry.
 //   - `chunkFileNames: chunks/[name]-[hash].js` keeps shared code under
 //     `dist/chunks/`.
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import dts from "vite-plugin-dts";
+
 import { resolve } from "node:path";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [

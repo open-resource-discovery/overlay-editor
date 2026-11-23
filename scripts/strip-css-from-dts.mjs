@@ -9,36 +9,36 @@
 //
 // We walk `dist/` and delete every `^\s*import [..].css..;?\s*$` line
 // from `.d.ts` files. Idempotent.
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
-const ROOT = new URL('../dist/', import.meta.url).pathname;
+const ROOT = new URL("../dist/", import.meta.url).pathname;
 
 const CSS_IMPORT_RE = /^\s*import\s+["'][^"']+\.css["']\s*;?\s*$\n?/gm;
 
 function walk(dir) {
-    for (const entry of readdirSync(dir)) {
-        const full = join(dir, entry);
-        const stat = statSync(full);
-        if (stat.isDirectory()) {
-            walk(full);
-        } else if (entry.endsWith('.d.ts')) {
-            strip(full);
-        }
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    const stat = statSync(full);
+    if (stat.isDirectory()) {
+      walk(full);
+    } else if (entry.endsWith(".d.ts")) {
+      strip(full);
     }
+  }
 }
 
 function strip(file) {
-    const before = readFileSync(file, 'utf8');
-    const after = before.replace(CSS_IMPORT_RE, '');
-    if (after !== before) {
-        writeFileSync(file, after);
-        process.stdout.write(`strip css from: ${file.replace(ROOT, '')}\n`);
-    }
+  const before = readFileSync(file, "utf8");
+  const after = before.replace(CSS_IMPORT_RE, "");
+  if (after !== before) {
+    writeFileSync(file, after);
+    process.stdout.write(`strip css from: ${file.replace(ROOT, "")}\n`);
+  }
 }
 
 try {
-    walk(ROOT);
+  walk(ROOT);
 } catch (e) {
-    if (e?.code !== 'ENOENT') throw e;
+  if (e?.code !== "ENOENT") throw e;
 }

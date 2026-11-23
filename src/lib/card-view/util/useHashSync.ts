@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { sectionDomId, type ActiveSection } from "../activeSection";
+import { type ActiveSection, sectionDomId } from "../activeSection";
 
 export function useHashSync(section: ActiveSection) {
   useEffect(() => {

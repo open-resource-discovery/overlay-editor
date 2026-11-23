@@ -7,12 +7,13 @@
 //
 // The two CSS post-processing steps are the heart of the host-CSS-isolation
 // fix — see src/lib/standalone.ts for the rationale.
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import postcss from "postcss";
-import { resolve } from "node:path";
+
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import postcss from "postcss";
+import { defineConfig } from "vite";
 
 /**
  * Safety gate: return any selector that would leak to the host site — i.e. one

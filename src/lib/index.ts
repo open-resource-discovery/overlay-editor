@@ -10,25 +10,25 @@
 // renders correctly even when consumers forget the style import.
 import "./styles.css";
 
-export {
-  OverlayCardView,
-  useOverlayStore,
-  selectParsedOverlay,
-  selectParseError,
-  useTheme,
-  useThemeStore,
-  cn,
-} from "./card-view";
 export type {
-  OverlayCardViewProps,
-  OverlayState,
-  Theme,
-  ResolvedTheme,
   OrdOverlay,
   OverlayAction,
+  OverlayCardViewProps,
   OverlayPatch,
   OverlayPerspective,
   OverlaySelector,
+  OverlayState,
   OverlayTarget,
   OverlayVisibility,
+  ResolvedTheme,
+  Theme,
+} from "./card-view";
+export {
+  cn,
+  OverlayCardView,
+  selectParsedOverlay,
+  selectParseError,
+  useOverlayStore,
+  useTheme,
+  useThemeStore,
 } from "./card-view";

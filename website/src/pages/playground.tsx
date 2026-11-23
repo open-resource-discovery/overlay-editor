@@ -1,6 +1,7 @@
-import React, { lazy, Suspense } from "react";
-import Layout from "@theme/Layout";
 import BrowserOnly from "@docusaurus/BrowserOnly";
+import Layout from "@theme/Layout";
+import type React from "react";
+import { lazy, Suspense } from "react";
 import styles from "./playground.module.css";
 
 // Load the playground body via a dynamic import so its client-only dependency

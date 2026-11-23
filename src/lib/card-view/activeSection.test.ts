@@ -1,11 +1,11 @@
 import {
   OVERVIEW,
-  TARGET,
   parseSectionDomId,
   patchAt,
   sectionDomId,
   sectionLabel,
   sectionsEqual,
+  TARGET,
 } from "./activeSection.js";
 import type { OverlayPatch } from "./types";
 

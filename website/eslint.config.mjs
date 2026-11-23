@@ -3,6 +3,6 @@
 // generated output out of any recursive runs.
 export default [
   {
-    ignores: ['build/**', '.docusaurus/**', 'node_modules/**'],
+    ignores: ["build/**", ".docusaurus/**", "node_modules/**"],
   },
 ];
