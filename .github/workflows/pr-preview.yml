@@ -39,7 +39,7 @@ jobs:
           PR_PREVIEW_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           set -euo pipefail
-          npm ci
+          npm ci --ignore-scripts
           npm run build:lib
           npm --prefix website ci
           npm --prefix website run build
