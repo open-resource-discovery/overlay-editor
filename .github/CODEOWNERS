@@ -7,4 +7,3 @@
 /website/.npmrc @open-resource-discovery/overlay-admin
 /website/package.json @open-resource-discovery/overlay-admin
 /website/package-lock.json @open-resource-discovery/overlay-admin
-/SECURITY_INSTALL.md @open-resource-discovery/overlay-admin
