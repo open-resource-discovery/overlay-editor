@@ -7,10 +7,8 @@
   },
   "scripts": {
     "docusaurus": "docusaurus",
-    "prestart": "npm --prefix .. run prepare:website-assets",
-    "start": "docusaurus start",
-    "prebuild": "npm --prefix .. run prepare:website-assets",
-    "build": "docusaurus build",
+    "start": "npm --prefix .. run prepare:website-assets && docusaurus start",
+    "build": "npm --prefix .. run prepare:website-assets && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear",
@@ -44,7 +42,10 @@
     "postcss": ">=8.5.23",
     "undici": ">=7.29.0 <9",
     "serialize-javascript": "^7.0.3",
-    "uuid": "^14.0.2"
+    "uuid": "^14.0.2",
+    "@docusaurus/core": {
+      "tinypool": "2.1.2"
+    }
   },
   "browserslist": {
     "production": [
@@ -59,6 +60,17 @@
     ]
   },
   "engines": {
-    "node": "26"
+    "node": ">=26"
+  },
+  "packageManager": "npm@11.20.0",
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": ">=11.20.0",
+      "onFail": "error"
+    }
+  },
+  "allowScripts": {
+    "core-js@3.50.0": false
   }
 }
